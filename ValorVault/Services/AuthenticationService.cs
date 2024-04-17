@@ -16,7 +16,7 @@ namespace ValorVault.Services
 
         public User Authenticate(string email, string password)
         {
-            var user = _context.Users.SingleOrDefault(x => x.email == email && x.password == password);
+            var user = _context.users.SingleOrDefault(x => x.email == email && x.user_password == password);
 
             if (user == null)
                 return null;

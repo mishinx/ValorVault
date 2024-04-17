@@ -22,7 +22,7 @@ namespace ValorVault.Controllers
         [HttpPost]
         public IActionResult Authenticate(UserBase userBase)
         {
-            var user = _authenticationService.Authenticate(userBase.email, userBase.password);
+            var user = _authenticationService.Authenticate(userBase.email, userBase.user_password);
 
             if (user == null)
             {

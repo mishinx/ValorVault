@@ -32,7 +32,7 @@ namespace Tests
             var mockDbSet = testUsers.AsMockDbSet();
 
             var mockContext = new Mock<SoldierInfoDbContext>();
-            mockContext.Setup(x => x.Users).Returns(mockDbSet.Object);
+            mockContext.Setup(x => x.users).Returns(mockDbSet.Object);
 
             var authenticationService = new AuthenticationService(mockContext.Object);
 
@@ -52,7 +52,7 @@ namespace Tests
             var mockDbSet = testUsers.AsMockDbSet();
 
             var mockContext = new Mock<SoldierInfoDbContext>();
-            mockContext.Setup(x => x.Users).Returns(mockDbSet.Object);
+            mockContext.Setup(x => x.users).Returns(mockDbSet.Object);
 
             var authenticationService = new AuthenticationService(mockContext.Object);
 
@@ -70,7 +70,7 @@ namespace Tests
                     };
             var mockDbSet = testUsers.AsMockDbSet();
             var mockContext = new Mock<SoldierInfoDbContext>();
-            mockContext.Setup(x => x.Users).Returns(mockDbSet.Object);
+            mockContext.Setup(x => x.users).Returns(mockDbSet.Object);
 
             var authenticationService = new AuthenticationService(mockContext.Object);
 

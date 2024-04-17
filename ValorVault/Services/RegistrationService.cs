@@ -15,12 +15,12 @@ namespace ValorVault.Services
 
         public User Register(string email, string password, string name)
         {
-            if (_context.Users.Any(x => x.email == email))
+            if (_context.users.Any(x => x.email == email))
                 return null;
 
-            var user = new User { email = email, password = password, Name = name };
+            var user = new User { email = email, user_password = password, username = name };
 
-            _context.Users.Add(user);
+            _context.users.Add(user);
             _context.SaveChanges();
 
             return user;

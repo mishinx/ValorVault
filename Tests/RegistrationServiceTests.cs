@@ -17,7 +17,7 @@ namespace Tests
         {
             var mockSet = new List<User>().AsMockDbSet();
             var mockContext = new Mock<SoldierInfoDbContext>();
-            mockContext.Setup(m => m.Users).Returns(mockSet.Object);
+            mockContext.Setup(m => m.users).Returns(mockSet.Object);
             var service = new RegistrationService(mockContext.Object);
             var newUser = new User { email = "new@example.com", password = "ValidPassword123", Name = "New User" };
 
@@ -25,8 +25,8 @@ namespace Tests
 
             Assert.IsNotNull(result);
             Assert.AreEqual(newUser.email, result.email);
-            Assert.AreEqual(newUser.password, result.password);
-            Assert.AreEqual(newUser.Name, result.Name);
+            Assert.AreEqual(newUser.password, result.user_password);
+            Assert.AreEqual(newUser.Name, result.username);
             mockSet.Verify(m => m.Add(It.IsAny<User>()), Times.Once);
             mockContext.Verify(m => m.SaveChanges(), Times.Once);
         }
@@ -37,7 +37,7 @@ namespace Tests
             var existingUser = new User { email = "existing@example.com", password = "existingPassword", Name = "Existing User" };
             var mockSet = new List<User> { existingUser }.AsMockDbSet();
             var mockContext = new Mock<SoldierInfoDbContext>();
-            mockContext.Setup(m => m.Users).Returns(mockSet.Object);
+            mockContext.Setup(m => m.users).Returns(mockSet.Object);
             var service = new RegistrationService(mockContext.Object);
             var existingEmail = "existing@example.com";
 

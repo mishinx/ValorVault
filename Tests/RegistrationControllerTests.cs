@@ -16,7 +16,7 @@ namespace Tests
         {
             var mockSet = new List<User>().AsMockDbSet();
             var mockContext = new Mock<SoldierInfoDbContext>();
-            mockContext.Setup(m => m.Users).Returns(mockSet.Object);
+            mockContext.Setup(m => m.users).Returns(mockSet.Object);
             var registrationService = new RegistrationService(mockContext.Object);
             var registrationController = new RegistrationController(registrationService);
             var newUser = new User { email = "newuser@example.com", password = "newPassword1", Name = "New User" };
@@ -31,7 +31,7 @@ namespace Tests
         {
             var existingUser = new User { email = "existing@example.com", password = "existingPassword1", Name = "Existing User" };
             var mockContext = new Mock<SoldierInfoDbContext>();
-            mockContext.Setup(x => x.Users).Returns(new List<User> { existingUser }.AsMockDbSet().Object);
+            mockContext.Setup(x => x.users).Returns(new List<User> { existingUser }.AsMockDbSet().Object);
             var registrationService = new RegistrationService(mockContext.Object);
             var registrationController = new RegistrationController(registrationService);
 
