@@ -4,10 +4,10 @@ namespace SoldierInfoContext
 {
     public class SoldierInfoDbContext : DbContext
     {
-        public DbSet<User> Users { get; set; }
-        public DbSet<Source> Sources { get; set; }
-        public DbSet<Administrator> Administrators { get; set; }
-        public DbSet<SoldierInfo> SoldierInfos { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Source> Sources { get; set; }
+        public virtual DbSet<Administrator> Administrators { get; set; }
+        public virtual DbSet<SoldierInfo> SoldierInfos { get; set; }
         public string DbPath { get; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
