@@ -12,7 +12,7 @@ using SoldierInfoContext;
 namespace ValorVault.Migrations
 {
     [DbContext(typeof(SoldierInfoDbContext))]
-    [Migration("20240409200746_InitialCreate")]
+    [Migration("20240417113911_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace ValorVault.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.3")
+                .HasAnnotation("ProductVersion", "8.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -37,13 +37,13 @@ namespace ValorVault.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("password")
+                    b.Property<string>("user_password")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("admin_id");
 
-                    b.ToTable("Administrators");
+                    b.ToTable("administrators");
                 });
 
             modelBuilder.Entity("SoldierInfoContext.SoldierInfo", b =>
@@ -123,7 +123,7 @@ namespace ValorVault.Migrations
 
                     b.HasIndex("user_ref");
 
-                    b.ToTable("SoldierInfos");
+                    b.ToTable("soldier_infos");
                 });
 
             modelBuilder.Entity("SoldierInfoContext.Source", b =>
@@ -134,7 +134,7 @@ namespace ValorVault.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("source_id"));
 
-                    b.Property<string>("name")
+                    b.Property<string>("source_name")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -144,10 +144,10 @@ namespace ValorVault.Migrations
 
                     b.HasKey("source_id");
 
-                    b.ToTable("Sources");
+                    b.ToTable("sources");
                 });
 
-            modelBuilder.Entity("SoldierInfoContext.User", b =>
+            modelBuilder.Entity("ValorVault.Models.User", b =>
                 {
                     b.Property<int>("user_id")
                         .ValueGeneratedOnAdd()
@@ -155,21 +155,21 @@ namespace ValorVault.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("user_id"));
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("email")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("password")
+                    b.Property<string>("user_password")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("username")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("user_id");
 
-                    b.ToTable("Users");
+                    b.ToTable("users");
                 });
 
             modelBuilder.Entity("SoldierInfoContext.SoldierInfo", b =>
@@ -186,7 +186,7 @@ namespace ValorVault.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("SoldierInfoContext.User", null)
+                    b.HasOne("ValorVault.Models.User", null)
                         .WithMany()
                         .HasForeignKey("user_ref")
                         .OnDelete(DeleteBehavior.Restrict)

@@ -5,11 +5,15 @@ namespace SoldierInfoContext
 {
     public class SoldierInfoDbContext : DbContext
     {
-        public DbSet<User> Users { get; set; }
-        public DbSet<Source> Sources { get; set; }
-        public DbSet<Administrator> Administrators { get; set; }
-        public virtual DbSet<ValorVault.Models.SoldierInfo> SoldierInfos { get; set; }
+        public virtual DbSet<User> users { get; set; }
+        public virtual DbSet<Source> sources { get; set; }
+        public virtual DbSet<Administrator> administrators { get; set; }
+        public virtual DbSet<SoldierInfo> soldier_infos { get; set; }
         public string DbPath { get; }
+
+        public SoldierInfoDbContext(DbContextOptions<SoldierInfoDbContext> options) : base(options)
+        {
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -26,22 +30,22 @@ namespace SoldierInfoContext
             {
                 entity.HasKey(e => e.user_id);
                 entity.Property(e => e.email).IsRequired();
-                entity.Property(e => e.password).IsRequired();
-                entity.Property(e => e.Name).IsRequired();
+                entity.Property(e => e.user_password).IsRequired();
+                entity.Property(e => e.username).IsRequired();
             });
 
             modelBuilder.Entity<Source>(entity =>
             {
                 entity.HasKey(e => e.source_id);
                 entity.Property(e => e.url).IsRequired();
-                entity.Property(e => e.name).IsRequired();
+                entity.Property(e => e.source_name).IsRequired();
             });
 
             modelBuilder.Entity<Administrator>(entity =>
             {
                 entity.HasKey(e => e.admin_id);
                 entity.Property(e => e.email).IsRequired();
-                entity.Property(e => e.password).IsRequired();
+                entity.Property(e => e.user_password).IsRequired();
             });
 
             modelBuilder.Entity<SoldierInfo>(entity =>
@@ -75,51 +79,5 @@ namespace SoldierInfoContext
                     .OnDelete(DeleteBehavior.Restrict);
             });
         }
-
-        public class UserBase
-        {
-            public string email { get; set; }
-            public string password { get; set; }
-        }
-
-
-        public class User : UserBase
-        {
-            public int user_id { get; set; }
-            public string Name { get; set; }
-        }
-
-        public partial class Administrator : UserBase
-        {
-            public int admin_id { get; set; }
-        }
-
-        public partial class Source
-        {
-            public int source_id { get; set; }
-            public string url { get; set; }
-            public string name { get; set; }
-        }
-        public partial class SoldierInfo
-        {
-            public int soldier_info_id { get; set; }
-            public string soldier_name { get; set; }
-            public string call_sign { get; set; } // Позивний
-            public byte[] photo { get; set; }
-            public int age { get; set; }
-            public DateTime birth_date { get; set; }
-            public DateTime? death_date { get; set; } // Може бути null
-            public DateTime? missing_date { get; set; } // Може бути null
-            public string birth_place { get; set; }
-            public string rank { get; set; } // Посада
-            public string missing_place { get; set; } // Може бути null
-            public string death_place { get; set; } // Може бути null
-            public string profile_status { get; set; } // Статус профайла (Апрувнутий, Не апрувнутий, В процесі)
-            public string soldier_status { get; set; } // Статус військового (Живий, Загинув, Зник безвісти, В полоні)
-            public string other_info { get; set; }
-            public int user_ref { get; set; }
-            public int admin_ref { get; set; }
-            public int source_ref { get; set; }
-        }
-    }
+    } 
 }

@@ -4,9 +4,9 @@
 
 <form asp-action="Register" method="post">
     <div class="form-group">
-        <label asp-for="Name"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
+        <label asp-for="username"></label>
+        <input asp-for="username" class="form-control" />
+        <span asp-validation-for="username" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="email"></label>
@@ -14,9 +14,9 @@
         <span asp-validation-for="email" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="password"></label>
-        <input asp-for="password" class="form-control" />
-        <span asp-validation-for="password" class="text-danger"></span>
+        <label asp-for="user_password"></label>
+        <input asp-for="user_password" class="form-control" />
+        <span asp-validation-for="user_password" class="text-danger"></span>
     </div>
     <button type="submit" class="btn btn-primary">Register</button>
 </form>

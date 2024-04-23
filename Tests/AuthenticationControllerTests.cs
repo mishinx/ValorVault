@@ -18,7 +18,7 @@ namespace Tests
                 new User { email = "test@example.com", password = "testPassword", Name = "Test User" }
             };
             var mockDbSet = testUsers.AsMockDbSet();
-            mockContext.Setup(x => x.Users).Returns(mockDbSet.Object);
+            mockContext.Setup(x => x.users).Returns(mockDbSet.Object);
 
             var authenticationService = new AuthenticationService(mockContext.Object);
             var controller = new AuthenticationController(authenticationService);
@@ -41,7 +41,7 @@ namespace Tests
                 new User { email = "test@example.com", password = "testPassword", Name = "Test User" }
             };
             var mockDbSet = testUsers.AsMockDbSet();
-            mockContext.Setup(x => x.Users).Returns(mockDbSet.Object);
+            mockContext.Setup(x => x.users).Returns(mockDbSet.Object);
 
             var authenticationService = new AuthenticationService(mockContext.Object);
             var controller = new AuthenticationController(authenticationService);

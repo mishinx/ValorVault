@@ -22,13 +22,13 @@ namespace ValorVault.Controllers
             if (!InputValidator.IsEmailValid(user.email))
                 return BadRequest(new { message = "Некоректний формат електронної пошти" });
 
-            if (!InputValidator.IsPasswordValid(user.password))
+            if (!InputValidator.IsPasswordValid(user.user_password))
                 return BadRequest(new { message = "Некоректний формат паролю" });
 
-            if (!InputValidator.IsNameValid(user.Name))
+            if (!InputValidator.IsNameValid(user.username))
                 return BadRequest(new { message = "Некоректний формат імені" });
 
-            var registeredUser = _registrationService.Register(user.email, user.password, user.Name);
+            var registeredUser = _registrationService.Register(user.email, user.user_password, user.username);
 
             if (registeredUser == null)
                 return BadRequest(new { message = "Користувач з таким email вже існує" });
