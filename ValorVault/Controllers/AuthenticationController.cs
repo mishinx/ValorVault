@@ -30,7 +30,6 @@ namespace ValorVault.Controllers
                 return View("Login");
             }
 
-            // Вхід успішний, редірект або інша логіка
             return RedirectToAction("Index", "Home");
         }
     }
