@@ -1,17 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SoldierInfoContext;
 using ValorVault.Models;
-using ValorVault.Services;
+using ValorVault.Services.UserService;
+using ValorVault.UserDtos;
 
 namespace ValorVault.Controllers
 {
     public class AuthenticationController : Controller
     {
-        private readonly AuthenticationService _authenticationService;
+        private readonly IUserService _userService;
 
-        public AuthenticationController(AuthenticationService authenticationService)
+        public AuthenticationController(IUserService userService)
         {
-            _authenticationService = authenticationService;
+            _userService = userService;
         }
 
         public IActionResult Login()
@@ -20,17 +20,25 @@ namespace ValorVault.Controllers
         }
 
         [HttpPost]
-        public IActionResult Authenticate(UserBase userBase)
+        public IActionResult Authenticate(User userBase)
         {
-            var user = _authenticationService.Authenticate(userBase.email, userBase.user_password);
-
-            if (user == null)
+            try
             {
-                ViewBag.ErrorMessage = "Email або пароль невірні";
+                var success = _userService.SignInUser(new LoginUserDto { Email = userBase.email, Password = userBase.user_password }).Result;
+
+                if (!success)
+                {
+                    ViewBag.ErrorMessage = "Email або пароль невірні";
+                    return View("Login");
+                }
+
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = ex.Message;
                 return View("Login");
             }
-
-            return RedirectToAction("Index", "Home");
         }
     }
 }

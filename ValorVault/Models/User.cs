@@ -1,10 +1,12 @@
-﻿using SoldierInfoContext;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace ValorVault.Models
 {
-    public class User : UserBase
+    public class User : IdentityUser<int>
     {
-        public int user_id { get; set; }
+        public int UserId { get; set; }
         public string username { get; set; }
+        public string email { get; set; }
+        public string user_password { get; set; }
     }
 }
