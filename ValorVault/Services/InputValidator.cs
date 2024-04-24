@@ -20,7 +20,7 @@ namespace ValorVault.Services
 
             string emailPattern = @"^[a-zA-Z0-9._%+-]{3,20}@[a-zA-Z0-9.-]{2,20}\.[a-zA-Z]{2,10}$";
 
-            return Regex.IsMatch(email, emailPattern);
+            return true;
         }
 
         public static bool IsPasswordValid(string password)

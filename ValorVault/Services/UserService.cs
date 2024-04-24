@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using ValorVault.UserDtos;
 using ValorVault.Models;
-using ValorVault.UserDtos;
 
 namespace ValorVault.Services.UserService
 {
@@ -41,8 +40,11 @@ namespace ValorVault.Services.UserService
 
             var newUser = new User
             {
-                UserName = user.Email,
+                username = user.Username,
+                UserName = user.Username,
                 Email = user.Email,
+                email = user.Email,
+                user_password = user.Password,
             };
 
             var result = await _userManager.CreateAsync(newUser, user.Password);
@@ -56,15 +58,17 @@ namespace ValorVault.Services.UserService
 
         public async Task<bool> SignInUser(LoginUserDto user)
         {
-            var foundUser = await _userManager.FindByEmailAsync(user.Email);
-            if (foundUser == null)
+            var result = await _signInManager.PasswordSignInAsync(user.Email, user.Password, true, lockoutOnFailure: true);
+
+            if (result.Succeeded)
             {
-                return false;
+                var foundUser = await _userManager.FindByEmailAsync(user.Email);
+                await _signInManager.SignInAsync(foundUser, true);
+
+                return await Task.FromResult(true);
             }
 
-            var result = await _signInManager.CheckPasswordSignInAsync(foundUser, user.Password, true);
-
-            return result.Succeeded;
+            throw new Exception("Введено неправильний логін або пароль!");
         }
 
         public async Task LogOut()

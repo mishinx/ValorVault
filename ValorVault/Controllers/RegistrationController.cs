@@ -1,39 +1,53 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SoldierInfoContext;
 using ValorVault.Services;
-using ValorVault.Models;
+using ValorVault.Services.UserService;
+using ValorVault.UserDtos;
 
 namespace ValorVault.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class RegistrationController : ControllerBase
+    public class RegistrationController : Controller
     {
-        private readonly RegistrationService _registrationService;
+        private readonly IUserService _userService;
 
-        public RegistrationController(RegistrationService registrationService)
+        public RegistrationController(IUserService userService)
         {
-            _registrationService = registrationService;
+            _userService = userService;
         }
 
-        [HttpPost("register")]
-        public IActionResult Register([FromBody] User user)
+        public IActionResult Register()
         {
-            if (!InputValidator.IsEmailValid(user.email))
+            return View();
+        }
+        [HttpPost("Register")]
+        public async Task<IActionResult> Register(RegisterUserDto model)
+        {
+            if (!InputValidator.IsEmailValid(model.Email))
                 return BadRequest(new { message = "Некоректний формат електронної пошти" });
 
-            if (!InputValidator.IsPasswordValid(user.user_password))
+            if (!InputValidator.IsPasswordValid(model.Password))
                 return BadRequest(new { message = "Некоректний формат паролю" });
 
-            if (!InputValidator.IsNameValid(user.username))
+            if (!InputValidator.IsNameValid(model.Username))
                 return BadRequest(new { message = "Некоректний формат імені" });
 
-            var registeredUser = _registrationService.Register(user.email, user.user_password, user.username);
+            try
+            {
+                var registeredUser = await _userService.CreateUser(model);
 
-            if (registeredUser == null)
-                return BadRequest(new { message = "Користувач з таким email вже існує" });
-
-            return Ok(registeredUser);
+                return RedirectToAction("Index", "Home");
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, new { message = "Помилка на сервері" });
+            }
         }
     }
 }
