@@ -17,13 +17,13 @@ namespace ValorVault.Models
         public DateTime birth_date { get; set; }
         public DateTime? death_date { get; set; }
         public DateTime? missing_date { get; set; }
-        public string birth_place { get; set; }
-        public string rank { get; set; }
-        public string missing_place { get; set; }
-        public string death_place { get; set; }
-        public string profile_status { get; private set; }
+        public string? birth_place { get; set; }
+        public string? rank { get; set; }
+        public string? missing_place { get; set; }
+        public string? death_place { get; set; }
+        public string profile_status { get; set; }
         public string soldier_status { get; set; }
-        public string other_info { get; set; }
+        public string? other_info { get; set; }
         public int user_ref { get; set; }
         public int admin_ref { get; set; }
         public int source_ref { get; set; }

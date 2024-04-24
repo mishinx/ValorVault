@@ -1,20 +1,19 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using SoldierInfoContext;
 using ValorVault.Models;
-using ValorVault.Services;
+using Microsoft.AspNetCore.Identity;
+using SoldierInfoContext;
+using ValorVault.Services.UserService;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
-builder.Services.AddScoped<AuthenticationService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddDbContext<SoldierInfoDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("SoldierInfoDatabase")));
+
+builder.Services.AddIdentity<User, IdentityRole<int>>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<SoldierInfoDbContext>();
 
 var app = builder.Build();
 
@@ -24,7 +23,7 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-    app.UseExceptionHandler("/Home/Error");
+    app.UseExceptionHandler("/Registrations/RegisterError");
     app.UseHsts();
 }
 
@@ -33,10 +32,16 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Authentication}/{action=Login}/{id?}");
+    pattern: "{controller=Registration}/{action=Register}/{id?}");
 
-app.Run();
+
+app.Run(async context =>
+{
+    context.Response.Redirect("/Registrations/Register");
+    await Task.CompletedTask;
+});
