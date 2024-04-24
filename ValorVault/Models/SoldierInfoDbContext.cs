@@ -11,17 +11,12 @@ namespace SoldierInfoContext
         public virtual DbSet<SoldierInfo> soldier_infos { get; set; }
         public string DbPath { get; }
 
-        public SoldierInfoDbContext(DbContextOptions<SoldierInfoDbContext> options) : base(options)
-        {
-        }
+       
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Host=btserver1.postgres.database.azure.com;Database=postgres;Username=BT_Admin;Password=Admpassword123!",
-                npgsqlOptionsAction: options =>
-                {
-                    options.EnableRetryOnFailure(maxRetryCount: 5, maxRetryDelay: TimeSpan.FromSeconds(30), errorCodesToAdd: null);
-                });
+            // Ensure call to base to preserve any other configuration setup outside
+            base.OnConfiguring(optionsBuilder);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -79,5 +74,5 @@ namespace SoldierInfoContext
                     .OnDelete(DeleteBehavior.Restrict);
             });
         }
-    } 
+    }
 }

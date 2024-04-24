@@ -14,7 +14,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<AuthenticationService>();
 
 builder.Services.AddDbContext<SoldierInfoDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("SoldierInfoDatabase")));
 
 var app = builder.Build();
 
@@ -37,6 +37,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Authentication}/{action=Login}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

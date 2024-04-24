@@ -1,8 +1,30 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    Layout = null; 
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="~/css/global.css" /> <!-- Use "~/" to reference the root directory -->
+    <link rel="stylesheet" href="~/css/style.css" />
+</head>
+<body>
+    <div class="component">
+        <div class="overlap-group">
+            <div class="text-wrapper">ValorVault</div>
+            <div class="div">Сховище Доблесті</div>
+            <div class="text-wrapper-2">Реєстрація</div>
+            <div class="overlap">
+                <div class="text-wrapper-3">Пошук за іменем</div>
+                <div class="text-wrapper-4">Пошук за позивним</div>
+                <img class="union" src="~/images/union.svg" /> <!-- Use "~/" to reference the root directory -->
+                <img class="line" src="~/images/line-2.svg" /> <!-- Use "~/" to reference the root directory -->
+                
+                <div class="div-wrapper"><div class="text-wrapper-5">Шукати</div></div>
+            </div>
+            <div class="overlap-2"><div class="text-wrapper-6">Вхід</div></div>
+        </div>
+    </div>
+</body>
+</html>
