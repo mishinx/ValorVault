@@ -1,27 +1,37 @@
-﻿@model ValorVault.UserDtos.RegisterUserDto
+﻿@{
+    Layout = null;
+}
 
-<h2>Registration</h2>
-
-<form asp-controller="Registration" asp-action="Register" method="post">
-    <div class="form-group">
-        <label asp-for="Username"></label>
-        <input asp-for="Username" class="form-control" />
-        <span asp-validation-for="Username" class="text-danger"></span>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="~/css/global.css" />
+    <link rel="stylesheet" href="~/css/main_window.css" />
+    <link rel="stylesheet" href="~/css/registration.css" />
+</head>
+<body>
+    <div class="component">
+        <div class="overlap-group">
+            <a href="~/Home/Index" class="text-wrapper">ValorVault</a>
+            <div class="div">Сховище Доблесті</div>
+            <form method="post" asp-controller="Registration" asp-action="Register" class="input-container">
+                <div class="form-group">
+                    <input type="text" class="input-field" name="username" placeholder="Ім'я користувача" required />
+                </div>
+                <div class="form-group">
+                    <input type="email" class="input-field" name="email" placeholder="Електронна пошта" required />
+                </div>
+                <div class="form-group">
+                    <input type="password" class="input-field" name="password" placeholder="Пароль" required />
+                </div>
+                <div class="form-group">
+                    <input type="password" class="input-field" name="PasswordRepeat" placeholder="Повторіть пароль" required />
+                </div>
+                <button type="submit" class="button">Зареєструватися</button>
+                <div class="registration-message">У вас вже є аккаунт? <a href="Authentication/Login">Увійти</a></div>
+            </form>
+        </div>
     </div>
-    <div class="form-group">
-        <label asp-for="Email"></label>
-        <input asp-for="Email" class="form-control" />
-        <span asp-validation-for="Email" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Password"></label>
-        <input asp-for="Password" type="password" class="form-control" />
-        <span asp-validation-for="Password" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="PasswordRepeat"></label>
-        <input asp-for="PasswordRepeat" type="password" class="form-control" />
-        <span asp-validation-for="PasswordRepeat" class="text-danger"></span>
-    </div>
-    <button type="submit" class="btn btn-primary">Register</button>
-</form>
+</body>
+</html>

@@ -19,26 +19,26 @@ namespace ValorVault.Controllers
             return View();
         }
 
-        [HttpPost]
-        public IActionResult Authenticate(User userBase)
+        [HttpPost("Authenticate")]
+        public IActionResult Authenticate(LoginUserDto userDto)
         {
-            try
-            {
-                var success = _userService.SignInUser(new LoginUserDto { Email = userBase.email, Password = userBase.user_password }).Result;
+            //try
+            //{
+            var success = _userService.SignInUser(userDto).Result;
 
-                if (!success)
-                {
-                    ViewBag.ErrorMessage = "Email або пароль невірні";
-                    return View("Login");
-                }
-
-                return RedirectToAction("Index", "Home");
-            }
-            catch (Exception ex)
+            if (!success)
             {
-                ViewBag.ErrorMessage = ex.Message;
+                ViewBag.ErrorMessage = "Email або пароль невірні";
                 return View("Login");
             }
+
+            return RedirectToAction("Index", "Home");
+            //}
+            //catch (Exception ex)
+            //{
+            //    ViewBag.ErrorMessage = ex.Message;
+            //    return View("Login");
+            //}
         }
     }
 }

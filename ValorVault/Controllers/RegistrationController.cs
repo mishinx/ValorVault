@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ValorVault.Services;
 using ValorVault.Services.UserService;
 using ValorVault.UserDtos;
 
@@ -18,18 +17,10 @@ namespace ValorVault.Controllers
         {
             return View();
         }
+
         [HttpPost("Register")]
         public async Task<IActionResult> Register(RegisterUserDto model)
         {
-            if (!InputValidator.IsEmailValid(model.Email))
-                return BadRequest(new { message = "Некоректний формат електронної пошти" });
-
-            if (!InputValidator.IsPasswordValid(model.Password))
-                return BadRequest(new { message = "Некоректний формат паролю" });
-
-            if (!InputValidator.IsNameValid(model.Username))
-                return BadRequest(new { message = "Некоректний формат імені" });
-
             try
             {
                 var registeredUser = await _userService.CreateUser(model);

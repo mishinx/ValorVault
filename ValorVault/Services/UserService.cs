@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using ValorVault.UserDtos;
 using ValorVault.Models;
+using System.Security.Claims;
 
 namespace ValorVault.Services.UserService
 {
@@ -37,6 +38,11 @@ namespace ValorVault.Services.UserService
             {
                 throw new InvalidOperationException("User with this email already exists.");
             }
+            var existingUserByUsername = await _userManager.FindByNameAsync(user.Username);
+            if (existingUserByUsername != null)
+            {
+                throw new InvalidOperationException("User with this username already exists.");
+            }
 
             var newUser = new User
             {
@@ -44,7 +50,7 @@ namespace ValorVault.Services.UserService
                 UserName = user.Username,
                 Email = user.Email,
                 email = user.Email,
-                user_password = user.Password,
+                user_password = user.Password
             };
 
             var result = await _userManager.CreateAsync(newUser, user.Password);
@@ -58,18 +64,30 @@ namespace ValorVault.Services.UserService
 
         public async Task<bool> SignInUser(LoginUserDto user)
         {
-            var result = await _signInManager.PasswordSignInAsync(user.Email, user.Password, true, lockoutOnFailure: true);
+            var foundUser = await _userManager.FindByEmailAsync(user.Email);
 
-            if (result.Succeeded)
+            if (foundUser == null)
             {
-                var foundUser = await _userManager.FindByEmailAsync(user.Email);
-                await _signInManager.SignInAsync(foundUser, true);
-
-                return await Task.FromResult(true);
+                return false;
             }
+            foundUser.Id = foundUser.UserId;
 
-            throw new Exception("Введено неправильний логін або пароль!");
+            var result_of_upd = await _userManager.UpdateAsync(foundUser);
+            if (!result_of_upd.Succeeded)
+            {
+                throw new InvalidOperationException("Failed to update user.");
+            }
+            var result = await _signInManager.PasswordSignInAsync(foundUser.UserName, user.Password, true, false);
+
+            if (!result.Succeeded)
+            {
+                return false;
+            }
+            await _signInManager.SignInAsync(foundUser, true);
+            return true;
         }
+
+
 
         public async Task LogOut()
         {

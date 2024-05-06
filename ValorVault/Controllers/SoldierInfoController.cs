@@ -22,7 +22,7 @@ public class SoldierInfoController : Controller
         if (ModelState.IsValid)
         {
             _soldierInfoService.AddSoldierInfo(model);
-            return RedirectToAction("Index"); // Повертає на головну сторінку або список
+            return RedirectToAction("Index");
         }
         return View(model);
     }

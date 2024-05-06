@@ -1,14 +1,7 @@
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using SoldierInfoContext;
 using ValorVault.Models;
-using ValorVault.Services;
 using ValorVault.Services.UserService;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,12 +13,12 @@ builder.Services.AddDbContext<SoldierInfoDbContext>(options =>
 
 builder.Services.AddIdentity<User, IdentityRole<int>>(options =>
 {
-    options.SignIn.RequireConfirmedAccount = true;
+    options.SignIn.RequireConfirmedEmail = false;
+    options.SignIn.RequireConfirmedPhoneNumber = false;
+    options.SignIn.RequireConfirmedAccount = false;
 })
 .AddEntityFrameworkStores<SoldierInfoDbContext>()
 .AddDefaultTokenProviders();
-
-
 builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
@@ -47,6 +40,7 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
 
 app.MapControllerRoute(
     name: "default",
