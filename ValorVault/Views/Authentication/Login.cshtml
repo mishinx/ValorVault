@@ -1,17 +1,31 @@
-﻿@model ValorVault.Models.User
+﻿@{
+    Layout = null;
+}
 
-<h2>Login</h2>
-
-<form asp-action="Authenticate" method="post">
-    <div class="form-group">
-        <label asp-for="email">Email:</label>
-        <input asp-for="email" class="form-control" />
-        <span asp-validation-for="email" class="text-danger"></span>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="~/css/global.css" />
+    <link rel="stylesheet" href="~/css/main_window.css" />
+    <link rel="stylesheet" href="~/css/authentication.css" />
+</head>
+<body>
+    <div class="component">
+        <div class="overlap-group">
+            <a href="~/Home/Index" class="text-wrapper">ValorVault</a>
+            <div class="div">Сховище Доблесті</div>
+            <form method="post" asp-controller="Authentication" asp-action="Authenticate" class="input-container">
+                <div class="form-group">
+                    <input type="email" class="input-field" name="Email" placeholder="Електронна пошта" required />
+                </div>
+                <div class="form-group">
+                    <input type="password" class="input-field" name="Password" placeholder="Пароль" required />
+                </div>
+                <button type="submit" class="button">Увійти</button>
+                <div class="registration-message">Ще не маєте аккаунта? <a href="/Registration">Зареєструватися</a></div>
+            </form>
+        </div>
     </div>
-    <div class="form-group">
-        <label asp-for="user_password">Password:</label>
-        <input asp-for="user_password" type="password" class="form-control" />
-        <span asp-validation-for="user_password" class="text-danger"></span>
-    </div>
-    <button type="submit" class="btn btn-primary">Login</button>
-</form>
+</body>
+</html>

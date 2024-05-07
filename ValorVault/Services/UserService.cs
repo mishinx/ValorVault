@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using ValorVault.UserDtos;
 using ValorVault.Models;
-using ValorVault.UserDtos;
+using System.Security.Claims;
 
 namespace ValorVault.Services.UserService
 {
@@ -38,11 +38,19 @@ namespace ValorVault.Services.UserService
             {
                 throw new InvalidOperationException("User with this email already exists.");
             }
+            var existingUserByUsername = await _userManager.FindByNameAsync(user.Username);
+            if (existingUserByUsername != null)
+            {
+                throw new InvalidOperationException("User with this username already exists.");
+            }
 
             var newUser = new User
             {
-                username = user.Email,
+                username = user.Username,
+                UserName = user.Username,
+                Email = user.Email,
                 email = user.Email,
+                user_password = user.Password
             };
 
             var result = await _userManager.CreateAsync(newUser, user.Password);
@@ -57,14 +65,26 @@ namespace ValorVault.Services.UserService
         public async Task<bool> SignInUser(LoginUserDto user)
         {
             var foundUser = await _userManager.FindByEmailAsync(user.Email);
+
             if (foundUser == null)
             {
                 return false;
             }
+            foundUser.Id = foundUser.UserId;
 
-            var result = await _signInManager.CheckPasswordSignInAsync(foundUser, user.Password, true);
+            var result_of_upd = await _userManager.UpdateAsync(foundUser);
+            if (!result_of_upd.Succeeded)
+            {
+                throw new InvalidOperationException("Failed to update user.");
+            }
+            var result = await _signInManager.PasswordSignInAsync(foundUser.UserName, user.Password, true, false);
 
-            return result.Succeeded;
+            if (!result.Succeeded)
+            {
+                return false;
+            }
+            await _signInManager.SignInAsync(foundUser, true);
+            return true;
         }
 
         public async Task LogOut()

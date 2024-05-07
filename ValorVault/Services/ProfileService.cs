@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SoldierInfoContext;
 using ValorVault.Models;
 using System.Collections.Generic;
