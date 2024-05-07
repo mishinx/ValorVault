@@ -18,8 +18,8 @@ namespace ValorVault.Tests.Services
             // Arrange
             var testData = new List<User>
             {
-                new User { user_id = 1, username = "user1", email = "user1@example.com", user_password = "password1" },
-                new User { user_id = 2, username = "user2", email = "user2@example.com", user_password = "password2" }
+                new User { UserId = 1, username = "user1", email = "user1@example.com", user_password = "password1" },
+                new User { UserId = 2, username = "user2", email = "user2@example.com", user_password = "password2" }
             }.AsQueryable();
 
             var mockSet = new Mock<DbSet<User>>();
@@ -30,7 +30,7 @@ namespace ValorVault.Tests.Services
 
             // Setup Find method
             mockSet.Setup(m => m.Find(It.IsAny<object[]>()))
-                   .Returns<object[]>(ids => testData.FirstOrDefault(u => u.user_id == (int)ids[0]));
+                   .Returns<object[]>(ids => testData.FirstOrDefault(u => u.UserId == (int)ids[0]));
 
             var mockContext = new Mock<SoldierInfoDbContext>();
             mockContext.Setup(c => c.users).Returns(mockSet.Object);

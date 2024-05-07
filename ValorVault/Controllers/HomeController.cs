@@ -18,6 +18,11 @@ namespace ValorVault.Controllers
             return View();
         }
 
+        public IActionResult Main_registered()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();

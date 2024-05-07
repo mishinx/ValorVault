@@ -4,8 +4,9 @@ using ValorVault.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System.Configuration;
 
+
 namespace SoldierInfoContext
-{
+{   
     public class SoldierInfoDbContext : IdentityDbContext<User, IdentityRole<int>, int>
     {
         public virtual DbSet<User> users { get; set; }
@@ -17,13 +18,15 @@ namespace SoldierInfoContext
         : base(options)
         {
         }
-
+        public SoldierInfoDbContext()
+        {
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
         }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
@@ -40,7 +43,7 @@ namespace SoldierInfoContext
                 entity.HasKey(e => e.source_id);
                 entity.Property(e => e.url).IsRequired();
                 entity.Property(e => e.source_name).IsRequired();
-                });
+            });
 
             modelBuilder.Entity<IdentityRole<int>>().HasData(
                 new IdentityRole<int> { Id = 1, Name = "User", NormalizedName = "USER" },
