@@ -29,7 +29,7 @@ namespace ValorVault.Controllers
             }
             catch (ArgumentException ex)
             {
-                return BadRequest(new { message = ex.Message });
+                return BadRequest(new { message = "Некоректний формат електронної пошти або заслабкий пароль" });
             }
             catch (InvalidOperationException ex)
             {

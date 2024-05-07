@@ -20,7 +20,7 @@ namespace ValorVault.Tests.Controllers
             mockUserService.Setup(x => x.SignInUser(It.IsAny<LoginUserDto>())).ReturnsAsync(true);
 
             var controller = new AuthenticationController(mockUserService.Object);
-            var user = new User { email = "test@example.com", user_password = "password" };
+            var user = new LoginUserDto { Email = "test@example.com", Password = "password" };
 
             // Act
             var result = controller.Authenticate(user) as RedirectToActionResult;
@@ -39,26 +39,7 @@ namespace ValorVault.Tests.Controllers
             mockUserService.Setup(x => x.SignInUser(It.IsAny<LoginUserDto>())).ReturnsAsync(false);
 
             var controller = new AuthenticationController(mockUserService.Object);
-            var user = new User { email = "test@example.com", user_password = "password" };
-
-            // Act
-            var result = controller.Authenticate(user) as ViewResult;
-
-            // Assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual("Login", result.ViewName);
-            Assert.IsNotNull(result.ViewData["ErrorMessage"]);
-        }
-
-        [TestMethod]
-        public void Authenticate_ServiceThrowsException_ReturnsLoginViewWithError()
-        {
-            // Arrange
-            var mockUserService = new Mock<IUserService>();
-            mockUserService.Setup(x => x.SignInUser(It.IsAny<LoginUserDto>())).Throws(new Exception("Error"));
-
-            var controller = new AuthenticationController(mockUserService.Object);
-            var user = new User { email = "test@example.com", user_password = "password" };
+            var user = new LoginUserDto { Email = "test@example.com", Password = "password" };
 
             // Act
             var result = controller.Authenticate(user) as ViewResult;

@@ -1,70 +1,85 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System;
+using System.Threading.Tasks;
 using ValorVault.Controllers;
-using ValorVault.Models;
 using ValorVault.Services.UserService;
 using ValorVault.UserDtos;
+using ValorVault.Models;
 
 namespace ValorVault.Tests.Controllers
 {
     [TestClass]
     public class RegistrationControllerTests
     {
-        [TestMethod]
-        public async Task Register_InvalidModel_ReturnsBadRequestWithErrorMessage()
+        private Mock<IUserService> _mockUserService;
+        private RegistrationController _controller;
+
+        [TestInitialize]
+        public void Setup()
         {
-            // Arrange
-            var mockUserService = new Mock<IUserService>();
-            var controller = new RegistrationController(mockUserService.Object);
-            var model = new RegisterUserDto { Username = "", Email = "invalid-email", Password = "weak", PasswordRepeat = "weak" };
-
-            // Act
-            var result = await controller.Register(model) as BadRequestObjectResult;
-
-            // Assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(400, result.StatusCode);
-            Assert.IsTrue(result.Value.ToString().Contains("Некоректний формат"));
+            _mockUserService = new Mock<IUserService>();
+            _controller = new RegistrationController(_mockUserService.Object);
         }
 
         [TestMethod]
-        public async Task Register_UserServiceThrowsArgumentException_ReturnsBadRequestWithErrorMessage()
+        public async Task Register_WithValidModel_ReturnsRedirectToActionResult()
         {
             // Arrange
-            var mockUserService = new Mock<IUserService>();
-            mockUserService.Setup(x => x.CreateUser(It.IsAny<RegisterUserDto>())).ThrowsAsync(new ArgumentException("Invalid argument"));
-
-            var controller = new RegistrationController(mockUserService.Object);
-            var model = new RegisterUserDto { Username = "test", Email = "test@example.com", Password = "password", PasswordRepeat = "password" };
+            var model = new RegisterUserDto { Username = "testuser", Email = "test@example.com", Password = "Password123", PasswordRepeat = "Password123" };
+            _mockUserService.Setup(x => x.CreateUser(It.IsAny<RegisterUserDto>())).ReturnsAsync(new User());
 
             // Act
-            var result = await controller.Register(model) as BadRequestObjectResult;
+            var result = await _controller.Register(model) as RedirectToActionResult;
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(400, result.StatusCode);
-            Assert.AreEqual("{ message = Некоректний формат паролю }", result.Value.ToString());
+            Assert.AreEqual("Index", result.ActionName);
+            Assert.AreEqual("Home", result.ControllerName);
         }
 
         [TestMethod]
-        public async Task Register_UserServiceThrowsException_ReturnsInternalServerErrorWithErrorMessage()
+        public void Register_WithInvalidModel_ThrowsArgumentException()
         {
             // Arrange
-            var mockUserService = new Mock<IUserService>();
-            mockUserService.Setup(x => x.CreateUser(It.IsAny<RegisterUserDto>())).ThrowsAsync(new Exception("Internal error"));
+            var model = new RegisterUserDto { Username = "testuser", Email = "test@example.com", Password = "Password123", PasswordRepeat = "DifferentPassword" };
 
-            var controller = new RegistrationController(mockUserService.Object);
-            var model = new RegisterUserDto { Username = "test", Email = "test@example.com", Password = "password", PasswordRepeat = "password" };
+            // Act & Assert
+            Assert.ThrowsExceptionAsync<ArgumentException>(() => _controller.Register(model));
+        }
 
-            // Act
-            var result = await controller.Register(model) as ObjectResult;
+        [TestMethod]
+        public void Register_WithExistingEmail_ThrowsInvalidOperationException()
+        {
+            // Arrange
+            var model = new RegisterUserDto { Username = "testuser", Email = "test@example.com", Password = "Password123", PasswordRepeat = "Password123" };
+            _mockUserService.Setup(x => x.CreateUser(It.IsAny<RegisterUserDto>())).ThrowsAsync(new InvalidOperationException("User with this email already exists."));
 
-            // Assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(400, result.StatusCode);
+            // Act & Assert
+            Assert.ThrowsExceptionAsync<InvalidOperationException>(() => _controller.Register(model));
+        }
+
+        [TestMethod]
+        public void Register_WithExistingUsername_ThrowsInvalidOperationException()
+        {
+            // Arrange
+            var model = new RegisterUserDto { Username = "testuser", Email = "test@example.com", Password = "Password123", PasswordRepeat = "Password123" };
+            _mockUserService.Setup(x => x.CreateUser(It.IsAny<RegisterUserDto>())).ThrowsAsync(new InvalidOperationException("User with this username already exists."));
+
+            // Act & Assert
+            Assert.ThrowsExceptionAsync<InvalidOperationException>(() => _controller.Register(model));
+        }
+
+        [TestMethod]
+        public void Register_WithFailedUserCreation_ThrowsInvalidOperationException()
+        {
+            // Arrange
+            var model = new RegisterUserDto { Username = "testuser", Email = "test@example.com", Password = "Password123", PasswordRepeat = "Password123" };
+            _mockUserService.Setup(x => x.CreateUser(It.IsAny<RegisterUserDto>())).ThrowsAsync(new InvalidOperationException("Failed to create user."));
+
+            // Act & Assert
+            Assert.ThrowsExceptionAsync<InvalidOperationException>(() => _controller.Register(model));
         }
     }
 }

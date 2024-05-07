@@ -87,8 +87,6 @@ namespace ValorVault.Services.UserService
             return true;
         }
 
-
-
         public async Task LogOut()
         {
             await _signInManager.SignOutAsync();
