@@ -18,9 +18,11 @@ namespace SoldierInfoContext
         : base(options)
         {
         }
+
         public SoldierInfoDbContext()
         {
         }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);

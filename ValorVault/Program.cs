@@ -1,21 +1,25 @@
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using SoldierInfoContext;
 using ValorVault.Models;
-using ValorVault.Services;
+using ValorVault.Services.UserService;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
-builder.Services.AddScoped<AuthenticationService>();
 
 builder.Services.AddDbContext<SoldierInfoDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("SoldierInfoDatabase")));
+
+builder.Services.AddIdentity<User, IdentityRole<int>>(options =>
+{
+    options.SignIn.RequireConfirmedEmail = false;
+    options.SignIn.RequireConfirmedPhoneNumber = false;
+    options.SignIn.RequireConfirmedAccount = false;
+})
+.AddEntityFrameworkStores<SoldierInfoDbContext>()
+.AddDefaultTokenProviders();
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 
@@ -36,8 +40,9 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Main_registered}/{id?}");
+    pattern: "{controller=Registration}/{action=Register}/{id?}");
 
 app.Run();
