@@ -1,0 +1,54 @@
+﻿@model List<ValorVault.Models.User>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="~/css/adminpage2/admp2style.css" />
+    <link rel="stylesheet" href="~/css/adminpage2/global.css" />
+</head>
+<body>
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Пошук...">
+        <img src="images/union.svg" alt="Search">
+    </div>
+
+    <ul class="user-list">
+        @foreach (var user in Model)
+        {
+            <li>
+                <div class="user-details">
+                    <p>Ім'я: @user.UserName</p>
+                    <p>Email: @user.Email</p>
+                    <p>Кількість створених анкет: 0</p>
+                    <p>Кількість опублікованих анкет: 0</p>
+                    <p>Кількість відхилених анкет: 0</p>
+                </div>
+                <div class="delete-button">
+                    <button onclick="deleteUser(@user.UserId)">Видалити</button>
+                </div>
+            </li>
+        }
+    </ul>
+    <script>
+        document.getElementById("searchInput").addEventListener("input", function () {
+            var filter, ul, li, userDetails, i, txtValue;
+            filter = this.value.toUpperCase();
+            ul = document.querySelector(".user-list");
+            li = ul.getElementsByTagName("li");
+            for (i = 0; i < li.length; i++) {
+                userDetails = li[i].getElementsByClassName("user-details")[0];
+                txtValue = userDetails.textContent || userDetails.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";
+                }
+            }
+        });
+
+        function deleteUser(userId) {
+            console.log("Deleting user with ID: " + userId);
+        }
+    </script>
+</body>
+</html>

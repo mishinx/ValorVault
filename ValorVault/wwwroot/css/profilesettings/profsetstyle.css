@@ -1,0 +1,218 @@
+body {
+    font-family: sans-serif;
+    background-color: #76927a;
+}
+
+.component {
+    position: relative;
+    width: 990px;
+    height: 950px;
+    top: 40px;
+}
+
+    .component .overlap1 {
+        float: right;
+        cursor: pointer;
+        position: relative;
+        z-index: 1;
+        background-color: white;
+        transition: background-color 0.3s;
+    }
+
+        .component .overlap1:hover {
+            background-color: red;
+        }
+
+    .component .overlap {
+        position: absolute;
+        width: 517px;
+        height: 390px;
+        top: 0;
+        left: 481px;
+        background-image: url('/images/rectangle-6.png');
+        background-color: #808080;
+        background-size: 50% 50%;
+        border-radius: 10px;
+    }
+
+    .component .avtor {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .component .div {
+        position: absolute;
+        width: 517px;
+        height: 334px;
+        top: 391px;
+        left: 481px;
+        background-color: #d9d9d9;
+        border-radius: 0px 0px 25px 25px;
+    }
+
+    .component .text-wrapper {
+        top: 11px;
+        left: 17px;
+        position: absolute;
+        font-family: "Roboto", Helvetica;
+        font-weight: 400;
+        color: #000000;
+        font-size: 18px;
+        letter-spacing: 0;
+        line-height: normal;
+        white-space: nowrap;
+    }
+
+    .component .text-wrapper-2 {
+        top: 95px;
+        left: 17px;
+        position: absolute;
+        font-family: "Roboto", Helvetica;
+        font-weight: 400;
+        color: #000000;
+        font-size: 18px;
+        letter-spacing: 0;
+        line-height: normal;
+        white-space: nowrap;
+    }
+
+    .component .overlap-2 {
+        position: absolute;
+        width: 229px;
+        height: 39px;
+        top: 128px;
+        left: 17px;
+        background-color: #f3f3f3;
+        box-shadow: 0px 6px 5px #0000000d;
+    }
+
+    .component .text-wrapper-3 {
+        position: absolute;
+        top: 8px;
+        left: 7px;
+        font-family: "Roboto", Helvetica;
+        font-weight: 400;
+        color: #000000;
+        font-size: 18px;
+        letter-spacing: 0;
+        line-height: normal;
+        white-space: nowrap;
+    }
+
+    .component .edit-removebg {
+        position: absolute;
+        width: 39px;
+        height: 39px;
+        top: 0;
+        right: 0px;
+        cursor: pointer;
+        z-index: 2;
+        object-fit: cover;
+        background-color: rgba(0, 0, 0, 0);
+        transition: background-color 0.3s;
+    }
+
+        .component .edit-removebg:hover {
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+
+    .component .text-wrapper-4 {
+        top: 11px;
+        left: 271px;
+        position: absolute;
+        font-family: "Roboto", Helvetica;
+        font-weight: 400;
+        color: #000000;
+        font-size: 18px;
+        letter-spacing: 0;
+        line-height: normal;
+        white-space: nowrap;
+    }
+
+    .component .overlap-3 {
+        position: absolute;
+        width: 229px;
+        height: 39px;
+        top: 44px;
+        left: 271px;
+        background-color: #f3f3f3;
+        box-shadow: 0px 6px 5px #0000000d;
+    }
+
+    .component .text-wrapper-5 {
+        width: 94px;
+        top: 11px;
+        left: 9px;
+        position: absolute;
+        font-family: "Roboto", Helvetica;
+        font-weight: 400;
+        color: #000000;
+        font-size: 18px;
+        letter-spacing: 0;
+        line-height: normal;
+        white-space: nowrap;
+    }
+
+    .component .text-wrapper-6 {
+        top: 240px;
+        left: 17px;
+        position: absolute;
+        font-family: "Roboto", Helvetica;
+        font-weight: 400;
+        color: #000000;
+        font-size: 18px;
+        letter-spacing: 0;
+        line-height: normal;
+        white-space: nowrap;
+    }
+
+    .component .text-wrapper-7 {
+        top: 270px;
+        left: 17px;
+        position: absolute;
+        font-family: "Roboto", Helvetica;
+        font-weight: 400;
+        color: #000000;
+        font-size: 18px;
+        letter-spacing: 0;
+        line-height: normal;
+        white-space: nowrap;
+    }
+
+    .component .text-wrapper-8 {
+        top: 300px;
+        left: 17px;
+        position: absolute;
+        font-family: "Roboto", Helvetica;
+        font-weight: 400;
+        color: #000000;
+        font-size: 18px;
+        letter-spacing: 0;
+        line-height: normal;
+        white-space: nowrap;
+    }
+
+    .component .overlap-4 {
+        position: absolute;
+        width: 229px;
+        height: 39px;
+        top: 45px;
+        left: 17px;
+        background-color: #f3f3f3;
+        box-shadow: 0px 6px 5px #0000000d;
+    }
+
+    .component .text-wrapper-9 {
+        top: 8px;
+        left: 8px;
+        position: absolute;
+        font-family: "Roboto", Helvetica;
+        font-weight: 400;
+        color: #000000;
+        font-size: 18px;
+        letter-spacing: 0;
+        line-height: normal;
+        white-space: nowrap;
+    }

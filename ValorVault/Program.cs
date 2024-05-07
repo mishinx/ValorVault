@@ -1,19 +1,22 @@
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using ValorVault.Models;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using SoldierInfoContext;
-using ValorVault.Services.UserService;
+using ValorVault.Models;
+using ValorVault.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
-builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IProfileService, ProfileService>();
+
 
 builder.Services.AddDbContext<SoldierInfoDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("SoldierInfoDatabase")));
-
-builder.Services.AddIdentity<User, IdentityRole<int>>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<SoldierInfoDbContext>();
 
 var app = builder.Build();
 
@@ -23,7 +26,7 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-    app.UseExceptionHandler("/Registrations/RegisterError");
+    app.UseExceptionHandler("/ProfileView/Error");
     app.UseHsts();
 }
 
@@ -32,16 +35,10 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Registration}/{action=Register}/{id?}");
+    pattern: "{controller=ProfileView}/{action=Adminpage2}/{id?}");
 
-
-app.Run(async context =>
-{
-    context.Response.Redirect("/Registrations/Register");
-    await Task.CompletedTask;
-});
+app.Run();

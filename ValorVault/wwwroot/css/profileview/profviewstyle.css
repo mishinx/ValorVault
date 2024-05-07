@@ -1,0 +1,279 @@
+body {
+    font-family: sans-serif;
+    background-color: #76927a;
+}
+
+.component {
+    position: relative;
+    width: 730px;
+    height: 450px;
+    top: 40px;
+}
+
+
+    .component .overlap1 {
+        float: right;
+        cursor: pointer;
+        position: relative;
+        z-index: 1;
+        background-color: white;
+        transition: background-color 0.3s;
+    }
+
+        .component .overlap1:hover {
+            background-color: red;
+        }
+
+    .component .overlap {
+        position: absolute;
+        width: 730px;
+        height: 450px;
+        top: 0;
+        left: 0;
+        background-image: url('/images/rectangle-6.png');
+        background-color: #808080;
+        background-size: 100% 100%;
+    }
+
+    .component .juice {
+        position: absolute;
+        width: 316px;
+        height: 317px;
+        top: 0;
+        left: 207px;
+        object-fit: cover;
+    }
+
+    .component .div {
+        position: absolute;
+        width: 730px;
+        height: 334px;
+        top: 317px;
+        left: 0;
+        background-color: #d9d9d9;
+        border-radius: 0px 0px 25px 25px;
+    }
+
+    .component .text-wrapper {
+        width: 77px;
+        top: 231px;
+        left: 17px;
+        font-weight: 400;
+        color: #696969;
+        font-size: 16px;
+        position: absolute;
+        font-family: "Roboto", Helvetica;
+        letter-spacing: 0;
+        line-height: normal;
+    }
+
+    .component .text-wrapper-2 {
+        width: 70px;
+        top: 206px;
+        left: 17px;
+        font-weight: 700;
+        color: #000000;
+        font-size: 16px;
+        position: absolute;
+        font-family: "Roboto", Helvetica;
+        letter-spacing: 0;
+        line-height: normal;
+    }
+
+    .component .text-wrapper-3 {
+        width: 144px;
+        top: 77px;
+        left: 17px;
+        font-weight: 400;
+        color: #696969;
+        font-size: 16px;
+        position: absolute;
+        font-family: "Roboto", Helvetica;
+        letter-spacing: 0;
+        line-height: normal;
+    }
+
+    .component .text-wrapper-4 {
+        width: 448px;
+        top: 11px;
+        left: 17px;
+        font-weight: 700;
+        color: #000000;
+        font-size: 20px;
+        position: absolute;
+        font-family: "Roboto", Helvetica;
+        letter-spacing: 0;
+        line-height: normal;
+    }
+
+    .component .text-wrapper-5 {
+        position: absolute;
+        width: 89px;
+        top: 57px;
+        left: 19px;
+        font-family: "Roboto", Helvetica;
+        font-weight: 700;
+        color: #000000;
+        font-size: 16px;
+        letter-spacing: 0;
+        line-height: normal;
+    }
+
+    .component .text-wrapper-6 {
+        width: 186px;
+        top: 77px;
+        left: 203px;
+        font-weight: 400;
+        color: #696969;
+        font-size: 16px;
+        position: absolute;
+        font-family: "Roboto", Helvetica;
+        letter-spacing: 0;
+        line-height: normal;
+    }
+
+    .component .text-wrapper-7 {
+        position: absolute;
+        width: 90px;
+        top: 57px;
+        left: 203px;
+        font-family: "Roboto", Helvetica;
+        font-weight: 700;
+        color: #000000;
+        font-size: 16px;
+        letter-spacing: 0;
+        line-height: normal;
+    }
+
+    .component .text-wrapper-8 {
+        width: 90px;
+        top: 57px;
+        left: 404px;
+        font-weight: 700;
+        color: #000000;
+        font-size: 16px;
+        position: absolute;
+        font-family: "Roboto", Helvetica;
+        letter-spacing: 0;
+        line-height: normal;
+    }
+
+    .component .text-wrapper-9 {
+        width: 153px;
+        top: 126px;
+        left: 17px;
+        font-weight: 400;
+        color: #696969;
+        font-size: 16px;
+        position: absolute;
+        font-family: "Roboto", Helvetica;
+        letter-spacing: 0;
+        line-height: normal;
+    }
+
+    .component .text-wrapper-10 {
+        width: 54px;
+        top: 105px;
+        left: 19px;
+        font-weight: 700;
+        color: #000000;
+        font-size: 16px;
+        position: absolute;
+        font-family: "Roboto", Helvetica;
+        letter-spacing: 0;
+        line-height: normal;
+    }
+
+    .component .text-wrapper-11 {
+        width: 145px;
+        top: 125px;
+        left: 203px;
+        font-weight: 400;
+        color: #696969;
+        font-size: 16px;
+        position: absolute;
+        font-family: "Roboto", Helvetica;
+        letter-spacing: 0;
+        line-height: normal;
+    }
+
+    .component .text-wrapper-12 {
+        width: 186px;
+        top: 105px;
+        left: 203px;
+        font-weight: 700;
+        color: #000000;
+        font-size: 16px;
+        position: absolute;
+        font-family: "Roboto", Helvetica;
+        letter-spacing: 0;
+        line-height: normal;
+    }
+
+    .component .text-wrapper-13 {
+        width: 60px;
+        top: 179px;
+        left: 17px;
+        font-weight: 400;
+        color: #696969;
+        font-size: 16px;
+        position: absolute;
+        font-family: "Roboto", Helvetica;
+        letter-spacing: 0;
+        line-height: normal;
+    }
+
+    .component .text-wrapper-14 {
+        width: 70px;
+        top: 153px;
+        left: 17px;
+        font-weight: 700;
+        color: #000000;
+        font-size: 16px;
+        position: absolute;
+        font-family: "Roboto", Helvetica;
+        letter-spacing: 0;
+        line-height: normal;
+    }
+
+    .component .overlap-2 {
+        position: absolute;
+        width: 309px;
+        height: 244px;
+        top: 78px;
+        left: 404px;
+    }
+
+    .component .rectangle {
+        position: absolute;
+        width: 307px;
+        height: 239px;
+        top: 0;
+        left: 0;
+        background-color: #f3f3f3;
+        border-radius: 21px;
+        box-shadow: 0px 6px 5px #0000000d;
+    }
+
+    .component .element {
+        width: 293px;
+        top: 5px;
+        left: 16px;
+        font-weight: 400;
+        color: #000000;
+        font-size: 16px;
+        position: absolute;
+        font-family: "Roboto", Helvetica;
+        letter-spacing: 0;
+        line-height: normal;
+    }
+
+    .component .span {
+        font-family: "Roboto", Helvetica;
+        font-weight: 400;
+        color: #000000;
+        font-size: 16px;
+        letter-spacing: 0;
+    }
+
+
