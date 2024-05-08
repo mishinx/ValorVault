@@ -48,6 +48,7 @@ namespace ValorVault.Services.UserService
 
             var newUser = new User
             {
+                Username = user.Username,
                 UserName = user.Username,
                 Email = user.Email,
             };

@@ -17,25 +17,23 @@
             <div class="text-wrapper">Ім‘я</div>
             <div class="text-wrapper-2">Електронна пошта</div>
             <div class="overlap-2">
-                <div class="text-wrapper-3" id="emailField">@Model.email</div>
-                <button class="edit-removebg" onclick="editEmail()"><img src="images/edit-removebg-preview-3.png" width="20" height="20" /></button>
+                <input type="text" id="emailField" value="@Model.Email" />
             </div>
             <div class="text-wrapper-4">Пароль</div>
             <div class="overlap-3">
-                <div class="text-wrapper-5" id="passwordField">@Model.user_password</div>
-                <button class="edit-removebg" onclick="editPassword()"><img src="images/edit-removebg-preview-3.png" width="20" height="20" /></button>
+                <input type="password" id="passwordField" value="@Model.Password" />
             </div>
             <div class="text-wrapper-6">Кількість створених анкет: 0</div>
             <div class="text-wrapper-7">Кількість опублікованих анкет: 0</div>
             <div class="text-wrapper-8">Кількість відхилених анкет: 0</div>
             <div class="overlap-4">
-                <div class="text-wrapper-9" id="usernameField">@Model.username</div>
-                <button class="edit-removebg" onclick="editUsername()"><img src="images/edit-removebg-preview-3.png" width="20" height="20" /></button>
+                <input type="text" id="usernameField" value="@Model.Username" />
             </div>
+            <button class="saveChanges">Підтвердити</button>
         </div>
     </div>
 
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         function goBack() {
             window.history.back();
@@ -100,6 +98,5 @@
         }
 
     </script>
-
 </body>
 </html>

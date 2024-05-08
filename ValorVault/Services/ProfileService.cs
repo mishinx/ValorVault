@@ -2,10 +2,13 @@ using Microsoft.EntityFrameworkCore;
 using SoldierInfoContext;
 using ValorVault.Models;
 using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using ValorVault.UserDtos;
+using ValorVault.Services.UserService;
 using ValorVault.UserDtos;
 using ValorVault.Services.UserService;
 
@@ -26,8 +29,10 @@ namespace ValorVault.Services
         {
             var users = await _context.Users.ToListAsync();
             var randomIndex = new Random().Next(0, users.Count);
+            var randomIndex = new Random().Next(0, users.Count);
             return users[randomIndex];
         }
+
 
         public async Task<SoldierInfo> GetRandomProfile()
         {
@@ -36,6 +41,8 @@ namespace ValorVault.Services
             {
                 return null;
             }
+
+            var randomIndex = new Random().Next(0, profiles.Count);
 
             var randomIndex = new Random().Next(0, profiles.Count);
             return profiles[randomIndex];
@@ -52,12 +59,16 @@ namespace ValorVault.Services
         }
 
         public async Task<List<User>> GetAllUsers()
+        public async Task<List<User>> GetAllUsers()
         {
+            return await _context.Users.ToListAsync();
             return await _context.Users.ToListAsync();
         }
 
+
         public async Task<List<SoldierInfo>> GetAllProfiles()
         {
+            return await _context.soldier_infos.ToListAsync();
             return await _context.soldier_infos.ToListAsync();
         }
 

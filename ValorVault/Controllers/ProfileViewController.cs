@@ -6,6 +6,8 @@ using ValorVault.Models;
 using ValorVault.Services;
 using ValorVault.Services.UserService;
 using ValorVault.UserDtos;
+using ValorVault.Services.UserService;
+using ValorVault.UserDtos;
 
 namespace ValorVault.Controllers
 {
@@ -13,10 +15,13 @@ namespace ValorVault.Controllers
     {
         private readonly IProfileService _profileService;
         private readonly IUserService _userService;
+        private readonly IUserService _userService;
 
+        public ProfileViewController(IProfileService profileService, IUserService userService)
         public ProfileViewController(IProfileService profileService, IUserService userService)
         {
             _profileService = profileService;
+            _userService = userService;
             _userService = userService;
         }
 
@@ -29,12 +34,14 @@ namespace ValorVault.Controllers
         public async Task<IActionResult> ProfileView(int id)
         {
             var profile = await _profileService.GetProfile(id);
+
             return View(profile);
         }
 
         public async Task<IActionResult> ProfileSettings(int id)
         {
             var user = await _profileService.GetUser(id);
+
             return View(user);
         }
 

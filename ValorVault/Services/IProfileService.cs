@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using ValorVault.Models;
 using ValorVault.UserDtos;
+using ValorVault.UserDtos;
 
 public interface IProfileService
 {
