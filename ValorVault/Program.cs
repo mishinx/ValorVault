@@ -20,6 +20,7 @@ builder.Services.AddIdentity<User, IdentityRole<int>>(options =>
 .AddEntityFrameworkStores<SoldierInfoDbContext>()
 .AddDefaultTokenProviders();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ISoldierInfoService, SoldierInfoService>();
 
 var app = builder.Build();
 

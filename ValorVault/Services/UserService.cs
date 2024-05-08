@@ -71,7 +71,6 @@ namespace ValorVault.Services.UserService
                 return false;
             }
             foundUser.Id = foundUser.UserId;
-            foundUser.EmailConfirmed = true;
 
 
             var result_of_upd = await _userManager.UpdateAsync(foundUser);
