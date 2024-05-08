@@ -8,7 +8,6 @@ using ValorVault.Controllers;
 using ValorVault.Models;
 using ValorVault.Services;
 
-
 namespace ValorVault.Tests.Controllers
 {
     [TestClass]

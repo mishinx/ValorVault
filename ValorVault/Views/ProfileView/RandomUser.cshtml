@@ -1,0 +1,102 @@
+﻿@model ValorVault.Models.User
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="~/css/profilesettings/profsetstyle.css" />
+    <link rel="stylesheet" href="~/css/profilesettings/global.css" />
+</head>
+<body>
+    <div class="component">
+        <button class="overlap1" onclick="goBack()"><img class="union2" src="images/union2.svg" /></button>
+        <div class="overlap">
+            <img class="avtor" src="images/avtor-8.png" width="200" height="200" />
+        </div>
+        <div class="div">
+            <div class="text-wrapper">Ім‘я</div>
+            <div class="text-wrapper-2">Електронна пошта</div>
+            <div class="overlap-2">
+                <input type="text" id="emailField" value="@Model.Email" />
+            </div>
+            <div class="text-wrapper-4">Пароль</div>
+            <div class="overlap-3">
+                <input type="password" id="passwordField" value="@Model.Password" />
+            </div>
+            <div class="text-wrapper-6">Кількість створених анкет: 0</div>
+            <div class="text-wrapper-7">Кількість опублікованих анкет: 0</div>
+            <div class="text-wrapper-8">Кількість відхилених анкет: 0</div>
+            <div class="overlap-4">
+                <input type="text" id="usernameField" value="@Model.Username" />
+            </div>
+            <button class="saveChanges">Підтвердити</button>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+
+        function editEmail() {
+            var newEmail = prompt("Введіть нову електронну пошту:");
+            if (newEmail !== null) {
+                $.ajax({
+                    type: "POST",
+                    url: '/ProfileView/UpdateEmail',
+                    data: { id: @Model.UserId, email: newEmail },
+                    success: function (response) {
+                        alert("Електронну пошту успішно оновлено.");
+   
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                        alert("Сталася помилка при оновленні електронної пошти.");
+                    }
+                });
+            }
+        }
+
+        function editPassword() {
+            var newPassword = prompt("Введіть новий пароль:");
+            if (newPassword !== null) {
+                $.ajax({
+                    type: "POST",
+                    url: '/ProfileView/UpdatePassword',
+                    data: { id: @Model.UserId, user_password: newPassword },
+                    success: function (response) {
+
+                        alert("Пароль успішно оновлено.");
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                        alert("Сталася помилка при оновленні паролю.");
+                    }
+                });
+            }
+        }
+
+        function editUsername() {
+            var newUsername = prompt("Введіть нове ім'я користувача:");
+            if (newUsername !== null) {
+                $.ajax({
+                    type: "POST",
+                    url: '/ProfileView/UpdateUsername',
+                    data: { id: @Model.UserId, username: newUsername },
+                    success: function (response) {
+
+                        alert("Ім'я користувача успішно оновлено.");
+
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                        alert("Сталася помилка при оновленні імені користувача.");
+                    }
+                });
+            }
+        }
+
+    </script>
+</body>
+</html>

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using ValorVault.UserDtos;
 using ValorVault.Models;
+using System;
 using System.Security.Claims;
 using Serilog;
 
@@ -52,11 +53,9 @@ namespace ValorVault.Services.UserService
 
             var newUser = new User
             {
-                username = user.Username,
+                Username = user.Username,
                 UserName = user.Username,
                 Email = user.Email,
-                email = user.Email,
-                user_password = user.Password
             };
 
             var result = await _userManager.CreateAsync(newUser, user.Password);
@@ -122,9 +121,7 @@ namespace ValorVault.Services.UserService
 
         public async Task<UserDto> GetUser(Guid id)
         {
-            try
-            {
-                var user = await _userManager.FindByIdAsync(id.ToString());
+            var user = await _userManager.FindByIdAsync(id.ToString());
 
                 if (user == null)
                 {
@@ -132,12 +129,7 @@ namespace ValorVault.Services.UserService
                     throw new Exception("Користувача не знайдено");
                 }
 
-                return new UserDto(user);
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
+            return new UserDto(user);
         }
 
         public async Task<User> UpdateUser(Guid id, User updatedUser)

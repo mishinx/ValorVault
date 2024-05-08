@@ -1,0 +1,71 @@
+﻿@model List<ValorVault.Models.User>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="~/css/adminpage2/admp2style.css" />
+    <link rel="stylesheet" href="~/css/adminpage2/global.css" />
+</head>
+<body>
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Пошук...">
+        <img src="images/union.svg" alt="Search">
+    </div>
+
+    <ul class="user-list">
+        @foreach (var user in Model)
+        {
+            <li id="user-@user.UserId">
+                <div class="user-details">
+                    <p>Ім'я: @user.username</p>
+                    <p>Email: @user.Email</p>
+                    <p>Кількість створених анкет: 0</p>
+                    <p>Кількість опублікованих анкет: 0</p>
+                    <p>Кількість відхилених анкет: 0</p>
+                </div>
+                <form id="deleteUserForm-@user.UserId">
+                    <button onclick="deleteUser('@user.UserId')">Видалити</button>
+                </form>
+            </li>
+        }
+    </ul>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        document.getElementById("searchInput").addEventListener("input", function () {
+            var filter, ul, li, userDetails, i, txtValue;
+            filter = this.value.toUpperCase();
+            ul = document.querySelector(".user-list");
+            li = ul.getElementsByTagName("li");
+            for (i = 0; i < li.length; i++) {
+                userDetails = li[i].getElementsByClassName("user-details")[0];
+                txtValue = userDetails.textContent || userDetails.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";
+                }
+            }
+        });
+
+        async function deleteUser(UserId) {
+            console.log("Deleting user with ID: " + UserId);
+
+            try {
+                const response = await $.ajax({
+                    type: "POST",
+                    url: '/ProfileView/DeleteUser',
+                    data: { UserId: UserId },
+                    async: false,
+                });
+
+                console.log(response.message);
+                $("#user-" + UserId).remove();
+            } catch (error) {
+                console.error("Error deleting user: " + error);
+            }
+        }
+
+    </script>
+</body>
+</html>

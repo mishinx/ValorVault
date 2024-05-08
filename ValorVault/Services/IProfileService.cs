@@ -1,12 +1,19 @@
-﻿using SoldierInfoContext;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using ValorVault.Models;
+using ValorVault.UserDtos;
+using ValorVault.UserDtos;
 
-
-namespace ValorVault.Services
+public interface IProfileService
 {
-    public interface IProfileService
-    {
-        Task<SoldierInfo> GetProfile(int id);
-    }
+    Task<User> GetUser(int userId);
+    Task<List<User>> GetAllUsers();
+    Task<List<SoldierInfo>> GetAllProfiles();
+    Task<User> GetRandomUser();
+    Task<SoldierInfo> GetProfile(int id);
+    Task<SoldierInfo> GetRandomProfile();
+    Task<bool> UpdateEmailAsync(int userId, string newEmail);
+    Task<bool> UpdatePasswordAsync(int userId, string newPassword);
+    Task<bool> UpdateUsernameAsync(int userId, string newUsername);
+    Task DeleteUser(int userId);
 }

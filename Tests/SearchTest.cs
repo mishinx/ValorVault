@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using ValorVault.Controllers;
 using ValorVault.Models;
 using ValorVault.Services;
-using Microsoft.Extensions.DependencyInjection; // Додайте цей using для методу AddDbContext
+using Microsoft.Extensions.DependencyInjection; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ using пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ AddDbContext
 using SoldierInfoContext;
 
 namespace ValorVault.Tests.Controllers
@@ -25,8 +25,8 @@ namespace ValorVault.Tests.Controllers
 
             using (var context = new SoldierInfoDbContext(options))
             {
-                // Додаємо тестових солдатів до пам'яті
-                context.soldier_infos.AddRange(new List<SoldierInfo>
+                // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ'пїЅпїЅ
+                context.SoldierInfos.AddRange(new List<SoldierInfo>
                 {
                     new SoldierInfo { soldier_name = "Clark Doe", birth_place = "Some place", call_sign = "Some sign", death_place = "Some place", missing_place = "Some place", other_info = "Some info", photo = new byte[0], profile_status = "Some status", rank = "Some rank", soldier_status = "Some status" },
                     new SoldierInfo { soldier_name = "Jane Smith", birth_place = "Some place", call_sign = "Some sign", death_place = "Some place", missing_place = "Some place", other_info = "Some info", photo = new byte[0], profile_status = "Some status", rank = "Some rank", soldier_status = "Some status" },
@@ -49,10 +49,10 @@ namespace ValorVault.Tests.Controllers
             // Assert
             var okResult = result.Result as OkObjectResult;
 
-            // Перевірка, чи можна привести результат до типу IEnumerable<SoldierInfo>
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ IEnumerable<SoldierInfo>
             var soldiers = okResult.Value as IEnumerable<SoldierInfo>;
 
-            // Перевірка, чи в колекції є тільки один солдат з ім'ям "John Doe"
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅ'пїЅпїЅ "John Doe"
             Assert.AreEqual(1, soldiers.Count());
             Assert.AreEqual("Clark Doe", soldiers.First().soldier_name);
         }
