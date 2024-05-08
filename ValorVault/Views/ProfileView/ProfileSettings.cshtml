@@ -46,12 +46,10 @@
             if (newEmail !== null) {
                 $.ajax({
                     type: "POST",
-                    url: '/ProfileViewController/UpdateEmail',
+                    url: '/ProfileView/UpdateEmail',
                     data: { id: @Model.UserId, email: newEmail },
                     success: function (response) {
-                        // Обробка успішного оновлення
                         alert("Електронну пошту успішно оновлено.");
-                        // Можливо, захочете відобразити новий email на сторінці без перезавантаження
                     },
                     error: function (xhr, status, error) {
                         console.error(error);
@@ -66,10 +64,9 @@
             if (newPassword !== null) {
                 $.ajax({
                     type: "POST",
-                    url: '/ProfileViewController/UpdatePassword',
+                    url: '/ProfileView/UpdatePassword',
                     data: { id: @Model.UserId, user_password: newPassword },
                     success: function (response) {
-                        // Обробка успішного оновлення
                         alert("Пароль успішно оновлено.");
                     },
                     error: function (xhr, status, error) {
@@ -85,7 +82,7 @@
             if (newUsername !== null) {
                 $.ajax({
                     type: "POST",
-                    url: '/ProfileViewController/UpdateUsername',
+                    url: '/ProfileView/UpdateUsername',
                     data: { id: @Model.UserId, username: newUsername },
                     success: function (response) {
                         // Обробка успішного оновлення

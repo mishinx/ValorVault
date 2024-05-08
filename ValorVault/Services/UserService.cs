@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using ValorVault.UserDtos;
 using ValorVault.Models;
+using System;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace ValorVault.Services.UserService
 {
@@ -46,11 +48,8 @@ namespace ValorVault.Services.UserService
 
             var newUser = new User
             {
-                username = user.Username,
                 UserName = user.Username,
                 Email = user.Email,
-                email = user.Email,
-                user_password = user.Password
             };
 
             var result = await _userManager.CreateAsync(newUser, user.Password);
@@ -64,27 +63,8 @@ namespace ValorVault.Services.UserService
 
         public async Task<bool> SignInUser(LoginUserDto user)
         {
-            var foundUser = await _userManager.FindByEmailAsync(user.Email);
-
-            if (foundUser == null)
-            {
-                return false;
-            }
-            foundUser.Id = foundUser.UserId;
-
-            var result_of_upd = await _userManager.UpdateAsync(foundUser);
-            if (!result_of_upd.Succeeded)
-            {
-                throw new InvalidOperationException("Failed to update user.");
-            }
-            var result = await _signInManager.PasswordSignInAsync(foundUser.UserName, user.Password, true, false);
-
-            if (!result.Succeeded)
-            {
-                return false;
-            }
-            await _signInManager.SignInAsync(foundUser, true);
-            return true;
+            var result = await _signInManager.PasswordSignInAsync(user.Email, user.Password, true, false);
+            return result.Succeeded;
         }
 
         public async Task LogOut()
@@ -109,21 +89,14 @@ namespace ValorVault.Services.UserService
 
         public async Task<UserDto> GetUser(Guid id)
         {
-            try
-            {
-                var user = await _userManager.FindByIdAsync(id.ToString());
+            var user = await _userManager.FindByIdAsync(id.ToString());
 
-                if (user == null)
-                {
-                    throw new Exception("Користувача не знайдено");
-                }
-
-                return new UserDto(user);
-            }
-            catch (Exception ex)
+            if (user == null)
             {
-                throw;
+                throw new InvalidOperationException("User not found.");
             }
+
+            return new UserDto(user);
         }
 
         public async Task<User> UpdateUser(Guid id, UserDto user)
@@ -135,6 +108,7 @@ namespace ValorVault.Services.UserService
             }
 
             // Update user properties based on the DTO
+            existingUser.Email = user.Email;
 
             var result = await _userManager.UpdateAsync(existingUser);
             if (!result.Succeeded)

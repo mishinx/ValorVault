@@ -42,25 +42,19 @@
         }
 
         function editEmail() {
-            var userId = @Model.Id; // Отримуємо ідентифікатор користувача
             var newEmail = prompt("Введіть нову електронну пошту:");
             if (newEmail !== null) {
                 $.ajax({
-                    type: "POST", // Метод запиту
-                    url: '/ProfileViewController/UpdateEmail', // URL контролера та методу для оновлення електронної пошти
-                    data: { id: userId, email: newEmail }, // Дані для передачі на сервер
+                    type: "POST",
+                    url: '/ProfileView/UpdateEmail',
+                    data: { id: @Model.UserId, email: newEmail },
                     success: function (response) {
-                        if (response.UserId) {
-                            document.getElementById("emailField").innerText = newEmail; // Оновлюємо значення електронної пошти на сторінці
-                            alert("Електронна пошта успішно оновлена.");
-                        } else {
-                            console.error("Помилка при оновленні електронної пошти.");
-                            alert("Сталася помилка при оновленні електронної пошти.");
-                        }
+                        alert("Електронну пошту успішно оновлено.");
+   
                     },
                     error: function (xhr, status, error) {
                         console.error(error);
-                        alert("Сталася помилка при виконанні запиту на оновлення електронної пошти.");
+                        alert("Сталася помилка при оновленні електронної пошти.");
                     }
                 });
             }
@@ -71,10 +65,10 @@
             if (newPassword !== null) {
                 $.ajax({
                     type: "POST",
-                    url: '/ProfileViewController/UpdatePassword',
+                    url: '/ProfileView/UpdatePassword',
                     data: { id: @Model.UserId, user_password: newPassword },
                     success: function (response) {
-                        // Обробка успішного оновлення
+
                         alert("Пароль успішно оновлено.");
                     },
                     error: function (xhr, status, error) {
@@ -90,12 +84,12 @@
             if (newUsername !== null) {
                 $.ajax({
                     type: "POST",
-                    url: '/ProfileViewController/UpdateUsername',
+                    url: '/ProfileView/UpdateUsername',
                     data: { id: @Model.UserId, username: newUsername },
                     success: function (response) {
-                        // Обробка успішного оновлення
+
                         alert("Ім'я користувача успішно оновлено.");
-                        // Можливо, захочете відобразити нове ім'я користувача на сторінці без перезавантаження
+
                     },
                     error: function (xhr, status, error) {
                         console.error(error);

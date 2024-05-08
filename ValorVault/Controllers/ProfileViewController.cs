@@ -1,21 +1,23 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using Microsoft.EntityFrameworkCore;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using ValorVault.Models;
 using ValorVault.Services;
+using ValorVault.Services.UserService;
+using ValorVault.UserDtos;
 
 namespace ValorVault.Controllers
 {
     public class ProfileViewController : Controller
     {
         private readonly IProfileService _profileService;
+        private readonly IUserService _userService;
 
-        public ProfileViewController(IProfileService profileService)
+        public ProfileViewController(IProfileService profileService, IUserService userService)
         {
             _profileService = profileService;
+            _userService = userService;
         }
 
         public async Task<IActionResult> RandomUser()
@@ -47,55 +49,89 @@ namespace ValorVault.Controllers
             var users = await _profileService.GetAllUsers();
             return View(users);
         }
-        [HttpPost]
-        public async Task<IActionResult> UpdateUsername(int id, string username)
+
+        [HttpPut("{id}/UpdateEmail")]
+        public async Task<IActionResult> UpdateEmail(int id, [FromBody] string newEmail)
         {
-            var user = await _profileService.GetUser(id);
-            if (user == null)
+            try
             {
-                return NotFound();
+                bool success = await _profileService.UpdateEmailAsync(id, newEmail);
+                if (success)
+                {
+                    return Ok("Email updated successfully.");
+                }
+                else
+                {
+                    return BadRequest("Failed to update email.");
+                }
             }
-
-            user.UserName = username;
-            await _profileService.UpdateUserName(user, username);
-
-            return Ok(new { UserId = user.Id });
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
-        [HttpPost]
-        public async Task<IActionResult> UpdateEmail(int id, string email)
+        [HttpPut("{id}/UpdatePassword")]
+        public async Task<IActionResult> UpdatePassword(int id, [FromBody] string newPassword)
         {
-            var user = await _profileService.GetUser(id);
-            if (user == null)
+            try
             {
-                return NotFound();
+                bool success = await _profileService.UpdatePasswordAsync(id, newPassword);
+                if (success)
+                {
+                    return Ok("Password updated successfully.");
+                }
+                else
+                {
+                    return BadRequest("Failed to update password.");
+                }
             }
-
-            user.Email = email;
-            await _profileService.UpdateUserEmail(user, email);
-
-            return Ok(new { UserId = user.Id });
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
-        [HttpPost]
-        public async Task<IActionResult> UpdatePassword(int id, string user_password)
+        [HttpPut("{id}/UpdateUsername")]
+        public async Task<IActionResult> UpdateUsername(int id, [FromBody] string newUsername)
         {
-            var user = await _profileService.GetUser(id);
-            if (user == null)
+            try
             {
-                return NotFound();
+                bool success = await _profileService.UpdateUsernameAsync(id, newUsername);
+                if (success)
+                {
+                    return Ok("Username updated successfully.");
+                }
+                else
+                {
+                    return BadRequest("Failed to update username.");
+                }
             }
-
-            var passwordHasher = new PasswordHasher<User>();
-            var newPasswordHash = passwordHasher.HashPassword(user, user_password);
-            user.PasswordHash = newPasswordHash;
-
-            await _profileService.UpdateUserPassword(user, user_password);
-
-            return Ok(new { UserId = user.Id });
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
 
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteUser(int userId)
+        {
+            try
+            {
+                await _profileService.DeleteUser(userId);
+                return Ok(new { message = "User deleted successfully" });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, new { message = "Failed to delete user" });
+            }
+        }
 
     }
 }

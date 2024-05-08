@@ -8,6 +8,7 @@ body {
     width: 990px;
     height: 950px;
     top: 40px;
+
 }
 
     .component .overlap1 {
@@ -32,7 +33,7 @@ body {
         background-image: url('/images/rectangle-6.png');
         background-color: #808080;
         background-size: 50% 50%;
-        border-radius: 10px;
+        border-radius: 25px;
     }
 
     .component .avtor {

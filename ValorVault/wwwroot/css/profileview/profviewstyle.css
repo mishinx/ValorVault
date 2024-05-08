@@ -7,14 +7,18 @@ body {
     position: relative;
     width: 730px;
     height: 450px;
-    top: 40px;
+    top: 100px;
+    left: 250px;
 }
 
 
     .component .overlap1 {
         float: right;
+        left: -20px;
         cursor: pointer;
         position: relative;
+        width: 30px;
+        height: 30px;
         z-index: 1;
         background-color: white;
         transition: background-color 0.3s;
@@ -33,6 +37,7 @@ body {
         background-image: url('/images/rectangle-6.png');
         background-color: #808080;
         background-size: 100% 100%;
+        border-radius: 25px;
     }
 
     .component .juice {
@@ -212,7 +217,7 @@ body {
 
     .component .text-wrapper-13 {
         width: 60px;
-        top: 179px;
+        top: 180px;
         left: 17px;
         font-weight: 400;
         color: #696969;
@@ -225,7 +230,7 @@ body {
 
     .component .text-wrapper-14 {
         width: 70px;
-        top: 153px;
+        top: 155px;
         left: 17px;
         font-weight: 700;
         color: #000000;
@@ -235,6 +240,55 @@ body {
         letter-spacing: 0;
         line-height: normal;
     }
+
+    .component .text-wrapper-15 {
+        position: absolute;
+        top: 165px;
+        left: 203px;
+        font-weight: 700;
+        color: #000000;
+        font-size: 16px;
+        font-family: "Roboto", Helvetica;
+        letter-spacing: 0;
+        line-height: normal;
+    }
+
+    .component .text-wrapper-16 {
+        position: absolute;
+        top: 185px;
+        left: 203px;
+        font-weight: 400;
+        color: #696969;
+        font-size: 16px;
+        font-family: "Roboto", Helvetica;
+        letter-spacing: 0;
+        line-height: normal;
+    }
+
+    .component .text-wrapper-17 {
+        position: absolute;
+        top: 210px;
+        left: 203px;
+        font-weight: 700;
+        color: #000000;
+        font-size: 16px;
+        font-family: "Roboto", Helvetica;
+        letter-spacing: 0;
+        line-height: normal;
+    }
+
+    .component .text-wrapper-18 {
+        position: absolute;
+        top: 232px;
+        left: 203px;
+        font-weight: 400;
+        color: #696969;
+        font-size: 16px;
+        font-family: "Roboto", Helvetica;
+        letter-spacing: 0;
+        line-height: normal;
+    }
+
 
     .component .overlap-2 {
         position: absolute;
@@ -276,4 +330,8 @@ body {
         letter-spacing: 0;
     }
 
-
+    .component .union2 {
+        position: absolute;
+        left: 0;
+        top: 1px;
+    }
