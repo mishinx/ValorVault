@@ -1,21 +1,22 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using ValorVault.Models;
 using ValorVault.Services;
+using ValorVault.Services.UserService;
+using ValorVault.UserDtos;
 
 namespace ValorVault.Controllers
 {
     public class ProfileViewController : Controller
     {
         private readonly IProfileService _profileService;
+        private readonly IUserService _userService;
 
-        public ProfileViewController(IProfileService profileService)
+        public ProfileViewController(IProfileService profileService, IUserService userService)
         {
             _profileService = profileService;
+            _userService = userService;
         }
 
         public async Task<IActionResult> RandomUser()
@@ -27,12 +28,14 @@ namespace ValorVault.Controllers
         public async Task<IActionResult> ProfileView(int id)
         {
             var profile = await _profileService.GetProfile(id);
+
             return View(profile);
         }
 
         public async Task<IActionResult> ProfileSettings(int id)
         {
             var user = await _profileService.GetUser(id);
+
             return View(user);
         }
 
@@ -47,55 +50,30 @@ namespace ValorVault.Controllers
             var users = await _profileService.GetAllUsers();
             return View(users);
         }
-        [HttpPost]
-        public async Task<IActionResult> UpdateUsername(int id, string username)
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUser(Guid id, [FromBody] RegisterUserDto updatedUserDto)
         {
-            var user = await _profileService.GetUser(id);
-            if (user == null)
+            try
             {
-                return NotFound();
+                var userToUpdate = await _profileService.GetUser(id);
+                if (userToUpdate == null)
+                {
+                    return NotFound($"User with id {id} not found.");
+                }
+
+                // Оновлення властивостей користувача
+                userToUpdate.Username = updatedUserDto.Username;
+                userToUpdate.Email = updatedUserDto.Email;
+                userToUpdate.Password = updatedUserDto.Password;
+
+                var updatedUser = await _userService.UpdateUser(userToUpdate);
+                return Ok(updatedUser);
             }
-
-            user.UserName = username;
-            await _profileService.UpdateUserName(user, username);
-
-            return Ok(new { UserId = user.Id });
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> UpdateEmail(int id, string email)
-        {
-            var user = await _profileService.GetUser(id);
-            if (user == null)
+            catch (Exception ex)
             {
-                return NotFound();
+                return StatusCode(500, ex.Message);
             }
-
-            user.Email = email;
-            await _profileService.UpdateUserEmail(user, email);
-
-            return Ok(new { UserId = user.Id });
         }
-
-        [HttpPost]
-        public async Task<IActionResult> UpdatePassword(int id, string user_password)
-        {
-            var user = await _profileService.GetUser(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            var passwordHasher = new PasswordHasher<User>();
-            var newPasswordHash = passwordHasher.HashPassword(user, user_password);
-            user.PasswordHash = newPasswordHash;
-
-            await _profileService.UpdateUserPassword(user, user_password);
-
-            return Ok(new { UserId = user.Id });
-        }
-
-
-
     }
 }
