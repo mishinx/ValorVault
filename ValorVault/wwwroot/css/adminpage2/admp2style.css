@@ -31,7 +31,7 @@ body {
     right: -15px;
     position: relative;
     display: inline-block;
-    width: calc(100% - 40px);
+    width: calc(100% - 20px);
     border-radius: 15px;
     overflow: hidden;
 }

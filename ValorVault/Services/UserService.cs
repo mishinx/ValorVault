@@ -53,9 +53,11 @@ namespace ValorVault.Services.UserService
 
             var newUser = new User
             {
-                Username = user.Username,
+                username = user.Username,
                 UserName = user.Username,
                 Email = user.Email,
+                email = user.Email,
+                user_password = user.Password
             };
 
             var result = await _userManager.CreateAsync(newUser, user.Password);
