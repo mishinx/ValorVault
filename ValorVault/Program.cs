@@ -20,7 +20,7 @@ builder.Services.AddIdentity<User, IdentityRole<int>>(options =>
 .AddEntityFrameworkStores<SoldierInfoDbContext>()
 .AddDefaultTokenProviders();
 builder.Services.AddScoped<IUserService, UserService>();
-
+builder.Services.AddScoped<ISoldierInfoService, SoldierInfoService>();
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -43,6 +43,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Registration}/{action=Register}/{id?}");
+    pattern: "{controller=SoldierInfo}/{action=Adding}/{id?}");
 
 app.Run();

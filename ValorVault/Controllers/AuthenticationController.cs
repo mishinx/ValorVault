@@ -32,7 +32,7 @@ namespace ValorVault.Controllers
                 return View("Login");
             }
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Main_registered", "Home");
             //}
             //catch (Exception ex)
             //{

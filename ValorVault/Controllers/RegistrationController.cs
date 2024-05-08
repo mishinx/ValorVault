@@ -25,7 +25,7 @@ namespace ValorVault.Controllers
             {
                 var registeredUser = await _userService.CreateUser(model);
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Main_registered", "Home");
             }
             catch (ArgumentException ex)
             {
