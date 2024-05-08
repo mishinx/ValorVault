@@ -14,7 +14,7 @@
         <div class="overlap-group">
             <div class="text-wrapper">ValorVault</div>
             <div class="div">Сховище Доблесті</div>
-            <button class="text-wrapper-2">Реєстрація</button>
+            <button class="text-wrapper-2" onclick="redirectToRegistration()">Реєстрація</button>
             <div class="overlap">
                 <input type="text" class="text-wrapper-3 search-box" id="searchBox1" data-default="Пошук за іменем">
                 <input type="text" class="text-wrapper-4 search-box" id="searchBox2" data-default="Пошук за позивним">
@@ -22,7 +22,7 @@
                 <img class="line" src="~/images/line-2.svg" />
                 <div class="div-wrapper"><button class="text-wrapper-5">Шукати</button></div>
             </div>
-            <div class="overlap-2"><button class="text-wrapper-6">Вхід</button></div>
+            <div class="overlap-2"><button class="text-wrapper-6" onclick="redirectToAuthentication()">Вхід</button></div>
         </div>
     </div>
     <script>
@@ -47,6 +47,12 @@
                 }
             });
         });
+        function redirectToRegistration() {
+            window.location.href = '/Registration/Register';
+        }
+        function redirectToAuthentication() {
+            window.location.href = '/Authentication/Login';
+        }
     </script>
 </body>
 </html>

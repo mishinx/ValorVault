@@ -15,7 +15,7 @@
     position: relative;
     min-height: 100vh;
     min-width: 100vh;
-    background-image: url('/images/mask-group.png');
+    background-image: url('/images/mask-group1.png');
     background-size: cover;
 }
 
@@ -171,7 +171,7 @@
 }
 
 .component .text-wrapper-6 {
-    width: 45px;
+    width: 100px;
     height: 45px;
     font-weight: 500;
     color: #000000;
@@ -183,6 +183,7 @@
     white-space: nowrap;
     background-color: #d9d9d9;
     border: none;
+    right:20px;
 }
 
     .component .text-wrapper-6:hover {

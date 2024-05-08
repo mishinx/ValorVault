@@ -8,7 +8,7 @@
     position: relative;
     min-height: 100vh;
     min-width: 100vh;
-    background-image: url('/images/mask-group.png');
+    background-image: url('/images/mask-group1.png');
     background-size: cover;
 }
 
@@ -125,11 +125,11 @@
     cursor: pointer;
 }
 .component .text-wrapper-2:hover {
-    color: #ff0000; /* Зміна кольору при наведенні */
+    color: #ff0000; /* пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
 }
 
 .component .text-wrapper-2:active {
-    color: #000000cc; /* Зміна кольору при натисканні */
+    color: #000000cc; /* пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
 }
 
 
