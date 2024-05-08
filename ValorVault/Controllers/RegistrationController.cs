@@ -25,19 +25,22 @@ namespace ValorVault.Controllers
             {
                 var registeredUser = await _userService.CreateUser(model);
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Main_registered", "Home");
             }
             catch (ArgumentException ex)
             {
-                return BadRequest(new { message = "Некоректний формат електронної пошти або заслабкий пароль" });
+                TempData["RegisterErrorMessage"] = "Некоректний формат електронної пошти або заслабкий пароль";
+                return RedirectToAction("Register", "Registration");
             }
             catch (InvalidOperationException ex)
             {
-                return BadRequest(new { message = ex.Message });
+                TempData["RegisterErrorMessage"] = "Некоректний формат електронної пошти або заслабкий пароль";
+                return RedirectToAction("Register", "Registration");
             }
             catch (Exception)
             {
-                return StatusCode(500, new { message = "Помилка на сервері" });
+                TempData["RegisterErrorMessage"] = "При реєстрації виникла помилка. Будь ласка, спробуйте ще раз.";
+                return RedirectToAction("Register", "Registration");
             }
         }
     }

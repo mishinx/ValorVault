@@ -28,6 +28,12 @@
                 <div class="form-group">
                     <input type="password" class="input-field" name="PasswordRepeat" placeholder="Повторіть пароль" required />
                 </div>
+                @if (!String.IsNullOrEmpty(TempData["RegisterErrorMessage"] as string))
+                {
+                    <div class="alert alert-danger">
+                        @TempData["RegisterErrorMessage"]
+                    </div>
+                }
                 <button type="submit" class="button">Зареєструватися</button>
                 <div class="registration-message">У вас вже є аккаунт? <a href="Authentication/Login">Увійти</a></div>
             </form>

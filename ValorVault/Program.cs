@@ -3,8 +3,24 @@ using Microsoft.EntityFrameworkCore;
 using SoldierInfoContext;
 using ValorVault.Models;
 using ValorVault.Services.UserService;
+using Serilog;
 
+//public class Program
+//{
+//    public static void Main(string[] args)
+//    {
 var builder = WebApplication.CreateBuilder(args);
+
+//Log.Logger = new LoggerConfiguration()
+//    .WriteTo.Console()
+//    .CreateLogger();
+
+//builder.Host.ConfigureLogging(logging =>
+//{
+//    logging.ClearProviders();
+//    logging.AddSerilog();
+//});
+
 
 builder.Services.AddControllersWithViews();
 
@@ -39,7 +55,6 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthentication();
 app.UseAuthorization();
 
 
@@ -48,3 +63,5 @@ app.MapControllerRoute(
     pattern: "{controller=Registration}/{action=Register}/{id?}");
 
 app.Run();
+//    }
+//}

@@ -22,23 +22,25 @@ namespace ValorVault.Controllers
         [HttpPost("Authenticate")]
         public IActionResult Authenticate(LoginUserDto userDto)
         {
-            //try
-            //{
-            var success = _userService.SignInUser(userDto).Result;
-
-            if (!success)
+            try
             {
-                ViewBag.ErrorMessage = "Email або пароль невірні";
+                var success = _userService.SignInUser(userDto).Result;
+
+                if (!success)
+                {
+                    TempData["LoginErrorMessage"] = "Неправильний email або пароль.";
+                    ViewBag.ErrorMessage = "Email або пароль невірні";
+                    return View("Login");
+                }
+                TempData["SuccessMessage"] = "Дія виконана успішно!";
+
+                return RedirectToAction("Main_registered", "Home");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = ex.Message;
                 return View("Login");
             }
-
-            return RedirectToAction("Index", "Home");
-            //}
-            //catch (Exception ex)
-            //{
-            //    ViewBag.ErrorMessage = ex.Message;
-            //    return View("Login");
-            //}
         }
     }
 }

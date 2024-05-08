@@ -46,8 +46,14 @@
         background-color: #1f2d20;
     }
 
+.alert-danger {
+    color: #ea1111;
+    text-align: center;
+}
+
 .registration-message {
     text-align: center;
     margin-top: 15px;
     text-decoration: underline;
 }
+

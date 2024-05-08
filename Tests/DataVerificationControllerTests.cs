@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using ValorVault.Controllers;
 using ValorVault.Services;
@@ -11,6 +12,7 @@ namespace ValorVault.Tests.Controllers
         [TestMethod]
         public void MarkAsVerified_ReturnsOkResult_WhenServiceSucceeds()
         {
+            // Arrange
             var soldierInfoId = 1;
 
             var mockService = new Mock<IDataVerificationService>();
@@ -18,8 +20,10 @@ namespace ValorVault.Tests.Controllers
 
             var controller = new DataVerificationController(mockService.Object);
 
+            // Act
             var result = controller.MarkAsVerified(soldierInfoId);
 
+            // Assert
             Assert.IsInstanceOfType(result, typeof(OkObjectResult));
             Assert.AreEqual("Анкета успішно підтверджена.", (result as OkObjectResult).Value);
         }
@@ -27,6 +31,7 @@ namespace ValorVault.Tests.Controllers
         [TestMethod]
         public void MarkAsRejected_ReturnsOkResult_WhenServiceSucceeds()
         {
+            // Arrange
             var soldierInfoId = 1;
 
             var mockService = new Mock<IDataVerificationService>();
@@ -34,8 +39,10 @@ namespace ValorVault.Tests.Controllers
 
             var controller = new DataVerificationController(mockService.Object);
 
+            // Act
             var result = controller.MarkAsRejected(soldierInfoId);
 
+            // Assert
             Assert.IsInstanceOfType(result, typeof(OkObjectResult));
             Assert.AreEqual("Анкета успішно відхилена.", (result as OkObjectResult).Value);
         }

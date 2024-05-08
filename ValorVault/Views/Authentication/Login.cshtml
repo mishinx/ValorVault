@@ -23,8 +23,14 @@
                     <input type="password" class="input-field" name="Password" placeholder="Пароль" required />
                 </div>
                 <button type="submit" class="button">Увійти</button>
+                @if (!String.IsNullOrEmpty(TempData["LoginErrorMessage"] as string))
+                {
+                    <div class="alert alert-danger">
+                        @TempData["LoginErrorMessage"]
+                    </div>
+                }
                 <div class="registration-message">Ще не маєте аккаунта? <a href="/Registration">Зареєструватися</a></div>
-            </form>
+            </form>            
         </div>
     </div>
 </body>

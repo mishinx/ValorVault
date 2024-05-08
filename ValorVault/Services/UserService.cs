@@ -2,6 +2,7 @@
 using ValorVault.UserDtos;
 using ValorVault.Models;
 using System.Security.Claims;
+using Serilog;
 
 namespace ValorVault.Services.UserService
 {
@@ -17,11 +18,13 @@ namespace ValorVault.Services.UserService
 
     public class UserService : IUserService
     {
+        //private readonly Serilog.ILogger _logger;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
 
-        public UserService(UserManager<User> userManager, SignInManager<User> signInManager)
+        public UserService(UserManager<User> userManager, SignInManager<User> signInManager)//, Serilog.ILogger logger)
         {
+            //_logger = logger;
             _userManager = userManager;
             _signInManager = signInManager;
         }
@@ -30,18 +33,21 @@ namespace ValorVault.Services.UserService
         {
             if (user.Password != user.PasswordRepeat)
             {
-                throw new ArgumentException("Passwords do not match.");
+                //_logger.Error($"'Password' and 'Repeat Password' fields must be the same!");
+                throw new Exception("Паролі не співпадають!");
             }
 
             var existingUser = await _userManager.FindByEmailAsync(user.Email);
             if (existingUser != null)
             {
-                throw new InvalidOperationException("User with this email already exists.");
+                //_logger.Error($"User with Email {user.Email} already exists!");
+                throw new InvalidOperationException($"Користувач з такою поштою вже існує!");
             }
             var existingUserByUsername = await _userManager.FindByNameAsync(user.Username);
             if (existingUserByUsername != null)
             {
-                throw new InvalidOperationException("User with this username already exists.");
+                //_logger.Error($"User with Username {user.Username} already exists!");
+                throw new InvalidOperationException($"Користувач з таким іменем вже існує!");
             }
 
             var newUser = new User
@@ -56,7 +62,9 @@ namespace ValorVault.Services.UserService
             var result = await _userManager.CreateAsync(newUser, user.Password);
             if (!result.Succeeded)
             {
-                throw new InvalidOperationException("Failed to create user.");
+                var errorMessage = string.Join(", ", result.Errors.Select(e => e.Description));
+                //_logger.Error($"Error occurred while creating user: {errorMessage}");
+                throw new Exception($"При створенні користувача виникла помилка: {errorMessage}");
             }
 
             return newUser;
@@ -68,6 +76,7 @@ namespace ValorVault.Services.UserService
 
             if (foundUser == null)
             {
+                //_logger.Error($"User not found!");
                 return false;
             }
             foundUser.Id = foundUser.UserId;
@@ -82,6 +91,7 @@ namespace ValorVault.Services.UserService
 
             if (!result.Succeeded)
             {
+                //_logger.Error($"User not found!");
                 return false;
             }
             await _signInManager.SignInAsync(foundUser, true);
@@ -98,12 +108,14 @@ namespace ValorVault.Services.UserService
             var user = await _userManager.FindByIdAsync(userId.ToString());
             if (user == null)
             {
+                //_logger.Error($"User not found!");
                 throw new InvalidOperationException("User not found.");
             }
 
             var result = await _userManager.DeleteAsync(user);
             if (!result.Succeeded)
             {
+                //_logger.Error($"Failed to delete user.");
                 throw new InvalidOperationException("Failed to delete user.");
             }
         }
@@ -116,6 +128,7 @@ namespace ValorVault.Services.UserService
 
                 if (user == null)
                 {
+                    //_logger.Error($"User with ID {id} not found.");
                     throw new Exception("Користувача не знайдено");
                 }
 
