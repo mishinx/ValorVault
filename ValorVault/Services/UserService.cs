@@ -12,7 +12,7 @@ namespace ValorVault.Services.UserService
         Task LogOut();
         Task DeleteUser(Guid userId);
         Task<UserDto> GetUser(Guid id);
-        Task<User> UpdateUser(Guid id, UserDto user);
+        Task<User> UpdateUser(Guid id, User user);
     }
 
     public class UserService : IUserService
@@ -71,6 +71,8 @@ namespace ValorVault.Services.UserService
                 return false;
             }
             foundUser.Id = foundUser.UserId;
+            foundUser.EmailConfirmed = true;
+
 
             var result_of_upd = await _userManager.UpdateAsync(foundUser);
             if (!result_of_upd.Succeeded)
@@ -126,7 +128,7 @@ namespace ValorVault.Services.UserService
             }
         }
 
-        public async Task<User> UpdateUser(Guid id, UserDto user)
+        public async Task<User> UpdateUser(Guid id, User updatedUser)
         {
             var existingUser = await _userManager.FindByIdAsync(id.ToString());
             if (existingUser == null)
@@ -134,7 +136,9 @@ namespace ValorVault.Services.UserService
                 throw new InvalidOperationException("User not found.");
             }
 
-            // Update user properties based on the DTO
+            existingUser.username = updatedUser.username;
+            existingUser.Email = updatedUser.Email;
+            existingUser.user_password = updatedUser.user_password;
 
             var result = await _userManager.UpdateAsync(existingUser);
             if (!result.Succeeded)

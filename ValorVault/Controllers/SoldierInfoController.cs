@@ -1,5 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using System;
 using ValorVault.Models;
+using ValorVault.Services;
 
 public class SoldierInfoController : Controller
 {
@@ -11,20 +15,37 @@ public class SoldierInfoController : Controller
     }
 
     [HttpGet]
-    public IActionResult Create()
+    public IActionResult Adding()
     {
         return View();
     }
 
     [HttpPost]
-    public IActionResult Create(SoldierInfo model)
+    public async Task<IActionResult> Adding(SoldierInfo model, IFormFile photo)
     {
-        if (ModelState.IsValid)
+        if (photo != null && photo.Length > 0)
         {
-            _soldierInfoService.AddSoldierInfo(model);
-            return RedirectToAction("Index");
+            var photoBytes = await ImageFormatter.ConvertToByteArray(photo);
+            if (photoBytes != null)
+            {
+                model.photo = photoBytes;
+            }
+            else
+            {
+                ModelState.AddModelError("Photo", "There was a problem converting the photo.");
+            }
         }
-        return View(model);
+        else
+        {
+            ModelState.AddModelError("Photo", "Photo is required.");
+        }
+        
+        model.birth_date = model.birth_date.ToUniversalTime();
+        model.admin_ref = 2;
+        model.user_ref = 23;
+        model.source_ref = 1;
+        _soldierInfoService.AddSoldierInfo(model);
+        return RedirectToAction("Index", "Home");
     }
 
     [HttpGet]

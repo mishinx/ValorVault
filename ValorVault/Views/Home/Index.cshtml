@@ -1,8 +1,54 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    Layout = null;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="~/css/global.css" />
+    <link rel="stylesheet" href="~/css/main_window.css" />
+</head>
+<body>
+    <div class="component">
+        <div class="overlap-group">
+            <div class="text-wrapper">ValorVault</div>
+            <div class="div">Сховище Доблесті</div>
+            <button class="text-wrapper-2">Реєстрація</button>
+            <div class="overlap">
+                <input type="text" class="text-wrapper-3 search-box" id="searchBox1" data-default="Пошук за іменем">
+                <input type="text" class="text-wrapper-4 search-box" id="searchBox2" data-default="Пошук за позивним">
+                <img class="union" src="~/images/unieon.svg" /> <!-- Use "~/" to reference the root directory -->
+                <img class="line" src="~/images/line-e2.svg" /> <!-- Use "~/" to reference the root directory -->
+                <!-- Замінюємо div на button та додаємо клас text-wrapper-5 -->
+                <div class="div-wrapper"><button class="text-wrapper-5">Шукати</button></div>
+            </div>
+            <div class="overlap-2"><button class="text-wrapper-6">Вхід</button></div>
+        </div>
+    </div>
+    <script>
+        var searchBoxes = document.querySelectorAll('.search-box');
+
+        searchBoxes.forEach(function (searchBox) {
+            var defaultText = searchBox.getAttribute('data-default');
+
+            if (searchBox.value === '') {
+                searchBox.value = defaultText;
+            }
+
+            searchBox.addEventListener('focus', function () {
+                if (searchBox.value === defaultText) {
+                    searchBox.value = '';
+                }
+            });
+
+            searchBox.addEventListener('blur', function () {
+                if (searchBox.value === '') {
+                    searchBox.value = defaultText;
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
