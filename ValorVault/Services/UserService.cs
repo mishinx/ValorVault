@@ -53,9 +53,11 @@ namespace ValorVault.Services.UserService
 
             var newUser = new User
             {
-                Username = user.Username,
+                username = user.Username,
                 UserName = user.Username,
                 Email = user.Email,
+                email = user.Email,
+                user_password = user.Password
             };
 
             var result = await _userManager.CreateAsync(newUser, user.Password);
@@ -65,7 +67,7 @@ namespace ValorVault.Services.UserService
                 //_logger.Error($"Error occurred while creating user: {errorMessage}");
                 throw new Exception($"При створенні користувача виникла помилка: {errorMessage}");
             }
-
+            await _userManager.AddToRoleAsync(newUser, "User");
             return newUser;
         }
 
@@ -101,7 +103,6 @@ namespace ValorVault.Services.UserService
         {
             await _signInManager.SignOutAsync();
         }
-
         public async Task DeleteUser(Guid userId)
         {
             var user = await _userManager.FindByIdAsync(userId.ToString());
@@ -123,11 +124,11 @@ namespace ValorVault.Services.UserService
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
 
-                if (user == null)
-                {
-                    //_logger.Error($"User with ID {id} not found.");
-                    throw new Exception("Користувача не знайдено");
-                }
+            if (user == null)
+            {
+                //_logger.Error($"User with ID {id} not found.");
+                throw new Exception("Користувача не знайдено");
+            }
 
             return new UserDto(user);
         }

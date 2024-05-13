@@ -15,13 +15,10 @@ namespace ValorVault.Controllers
     {
         private readonly IProfileService _profileService;
         private readonly IUserService _userService;
-        private readonly IUserService _userService;
 
-        public ProfileViewController(IProfileService profileService, IUserService userService)
         public ProfileViewController(IProfileService profileService, IUserService userService)
         {
             _profileService = profileService;
-            _userService = userService;
             _userService = userService;
         }
 

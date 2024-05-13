@@ -29,7 +29,6 @@ namespace ValorVault.Services
         {
             var users = await _context.Users.ToListAsync();
             var randomIndex = new Random().Next(0, users.Count);
-            var randomIndex = new Random().Next(0, users.Count);
             return users[randomIndex];
         }
 
@@ -44,7 +43,6 @@ namespace ValorVault.Services
 
             var randomIndex = new Random().Next(0, profiles.Count);
 
-            var randomIndex = new Random().Next(0, profiles.Count);
             return profiles[randomIndex];
         }
 
@@ -59,16 +57,13 @@ namespace ValorVault.Services
         }
 
         public async Task<List<User>> GetAllUsers()
-        public async Task<List<User>> GetAllUsers()
         {
-            return await _context.Users.ToListAsync();
             return await _context.Users.ToListAsync();
         }
 
 
         public async Task<List<SoldierInfo>> GetAllProfiles()
         {
-            return await _context.soldier_infos.ToListAsync();
             return await _context.soldier_infos.ToListAsync();
         }
 
