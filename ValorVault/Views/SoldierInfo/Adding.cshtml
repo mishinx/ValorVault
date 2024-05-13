@@ -1,74 +1,55 @@
 ﻿@{
     Layout = null;
 }
-
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="~/css/global.css" />
-    <link rel="stylesheet" href="~/css/newprofile.css" />
+    <link rel="stylesheet" href="~/css/adding.css" />
+    <link rel="stylesheet" href="~/css/globals.css" />
 </head>
 <body>
-    <form method="post" action="/SoldierInfo/Adding" enctype="multipart/form-data" id="soldierForm">
-        <div class="component">
-            <div class="overlap-group">
+    <div class="component">
+        <div class="overlap-group">
+            <form method="post" asp-controller="SoldierInfo" asp-action="Adding" class="input-container">
+                <input type="text" name="call_sign" class="input rectangle" />
+                <div class="text-wrapper">Дата зникнення/смерті</div>
+                <div class="div">*долучити фото</div>
                 <div class="text-wrapper-2">ПІБ</div>
                 <input type="text" name="soldier_name" class="input rectangle-2" />
-
-                <div class="text-wrapper-3">Вік</div>
-                <input type="text" name="age" class="input rectangle-6" />
-
-                <div class="text-wrapper-4">Дата народження</div>
-                <input type="text" name="birth_date" class="input rectangle-7" />
-
-                <div class="text-wrapper-5">Позивний</div>
-                <input type="text" name="call_sign" class="input rectangle-5" />
-
-                <div class="text-wrapper-6">Посада</div>
-                <input type="text" name="rank" class="input rectangle-4" />
-
-                <div class="text-wrapper-7">Спогади</div>
-                <input type="text" name="other_info" class="input rectangle-8" />
-
-                <div class="text-wrapper-8">Місце зникнення/смерті</div>
                 <input type="text" name="death_place" class="input rectangle-3" />
-
+                <input type="text" name="rank" class="input rectangle-4" />
+                <<input type="text" name="call_sign" class="input rectangle-5" />
+                <input type="text" name="age" class="input rectangle-6" />
+                <div class="text-wrapper-3">Вік</div>
+                <input class="img"/>
+                <input type="text" name="death_date" class="input rectangle-7" />
+                <input type="text" name="other_info" class="input rectangle-8"/>
+                <div class="text-wrapper-4">Дата народження</div>
+                <div class="text-wrapper-5">Позивний</div>
+                <div class="text-wrapper-6">Посада</div>
+                <div class="text-wrapper-7">Спогади</div>
+                <div class="text-wrapper-8">Місце зникнення/смерті</div>
                 <div class="text-wrapper-9">Місце народження</div>
-                <input type="text" name="birth_place" class="input rectangle-9" />
-
-                <div class="text-wrapper">Дата зникнення/смерті</div>
-                <input type="text" name="death_date" class="input rectangle-1" />
-
-
-                <div class="div">*долучити фото</div>
-                <input type="file" name="photo" id="photoInput" class="input file-input" />
-
-
-                <select name="soldier_status" class="input">
-                    <option value="Active">Active</option>
-                    <option value="Retired">Retired</option>
-                    <option value="Deceased">Deceased</option>
-                    <option value="Missing">Missing</option>
+                <div class="overlap"><button class="text-wrapper-10">Додати анкету</button></div>
+                <div class="centered-button">
+                    <label for="photoInput">
+                        <img class="image" src="~/images/2x.png" alt="Button Image">
+                    </label>
+                    <input type="file" name="photo" id="photoInput" class="input file-input" style="display: none;">
+                </div>
+                <div class="status">Статус</div>
+                <div class="combo">
+                <select class="combo-box" id="combo-box">
+                    <option value="option1">На службі</option>
+                    <option value="option2">Демобілізований</option>
+                    <option value="option3">Загинув</option>
+                    <option value="option4">Зник безвісти</option>
                 </select>
-
-
-                <button type="submit" class="button">Додати анкету</button>
-            </div>
+                    <div><button class="b_source"><img class="img_source" src="~/images/source.png" /></button></div>
+                </div>
+            </form>
         </div>
-    </form>
-
-
-        <script>
-    document.getElementById('soldierForm').onsubmit = function() {
-        var fileInput = document.getElementById('photoInput');
-        if (fileInput.files.length === 0) {
-            alert('Please upload a photo.');
-            return false;  // Зупиняє відправлення форми
-        }
-        return true;  // Дозволяє формі відправитися
-    };
-    </script>
-
+    </div>
 </body>
 </html>

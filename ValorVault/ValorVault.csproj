@@ -26,12 +26,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Views\Main_registered\" />
 	  <Folder Include="Views\SoldierInfo\" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Views\Main_registered\" />
 	</ItemGroup>
 
 </Project>

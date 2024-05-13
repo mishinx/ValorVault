@@ -67,7 +67,7 @@ namespace ValorVault.Services.UserService
                 //_logger.Error($"Error occurred while creating user: {errorMessage}");
                 throw new Exception($"При створенні користувача виникла помилка: {errorMessage}");
             }
-
+            await _userManager.AddToRoleAsync(newUser, "User");
             return newUser;
         }
 
