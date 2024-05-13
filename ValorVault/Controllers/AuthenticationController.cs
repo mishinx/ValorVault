@@ -24,17 +24,24 @@ namespace ValorVault.Controllers
         {
             try
             {
-                var success = _userService.SignInUser(userDto).Result;
+                var role = _userService.SignInUser(userDto).Result;
 
-                if (!success)
+                if (role == null)
                 {
                     TempData["LoginErrorMessage"] = "Неправильний email або пароль.";
                     ViewBag.ErrorMessage = "Email або пароль невірні";
                     return View("Login");
                 }
-                TempData["SuccessMessage"] = "Дія виконана успішно!";
-
-                return RedirectToAction("Main_registered", "Home");
+                else if (role == "Admin")
+                {
+                    TempData["SuccessMessage"] = "Дія виконана успішно!";
+                    return RedirectToAction("Adminpage2", "ProfileView");
+                }
+                else
+                {
+                    TempData["SuccessMessage"] = "Дія виконана успішно!";
+                    return RedirectToAction("Main_registered", "Home");
+                }
             }
             catch (Exception ex)
             {

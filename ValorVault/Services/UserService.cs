@@ -10,7 +10,7 @@ namespace ValorVault.Services.UserService
     public interface IUserService
     {
         Task<User> CreateUser(RegisterUserDto user);
-        Task<bool> SignInUser(LoginUserDto user);
+        Task<string> SignInUser(LoginUserDto user);
         Task LogOut();
         Task DeleteUser(Guid userId);
         Task<UserDto> GetUser(Guid id);
@@ -67,18 +67,27 @@ namespace ValorVault.Services.UserService
                 //_logger.Error($"Error occurred while creating user: {errorMessage}");
                 throw new Exception($"При створенні користувача виникла помилка: {errorMessage}");
             }
-            await _userManager.AddToRoleAsync(newUser, "User");
+            try
+            {
+                newUser.Id = newUser.UserId;
+                await _userManager.AddToRoleAsync(newUser, "User");
+            }
+            catch (Exception ex) 
+            {
+                Console.WriteLine(ex);
+                return null;
+            }
             return newUser;
         }
 
-        public async Task<bool> SignInUser(LoginUserDto user)
+        public async Task<string> SignInUser(LoginUserDto user)
         {
             var foundUser = await _userManager.FindByEmailAsync(user.Email);
 
             if (foundUser == null)
             {
                 //_logger.Error($"User not found!");
-                return false;
+                return null;
             }
             foundUser.Id = foundUser.UserId;
 
@@ -93,10 +102,19 @@ namespace ValorVault.Services.UserService
             if (!result.Succeeded)
             {
                 //_logger.Error($"User not found!");
-                return false;
+                return null;
             }
+
             await _signInManager.SignInAsync(foundUser, true);
-            return true;
+            var isAdmin = await _userManager.IsInRoleAsync(foundUser, "Administrator");
+            if (isAdmin) 
+            {
+                return "Admin"; 
+            }
+            else 
+            {
+                return "User";
+            }
         }
 
         public async Task LogOut()
@@ -125,11 +143,11 @@ namespace ValorVault.Services.UserService
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
 
-                if (user == null)
-                {
-                    //_logger.Error($"User with ID {id} not found.");
-                    throw new Exception("Користувача не знайдено");
-                }
+            if (user == null)
+            {
+                //_logger.Error($"User with ID {id} not found.");
+                throw new Exception("Користувача не знайдено");
+            }
 
             return new UserDto(user);
         }

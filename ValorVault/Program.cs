@@ -33,8 +33,6 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IProfileService, ProfileService>();
 builder.Services.AddScoped<IUserService, UserService>();
 
-
-
 builder.Services.AddDbContext<SoldierInfoDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("SoldierInfoDatabase")));
 
