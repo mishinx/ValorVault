@@ -21,7 +21,6 @@ body {
     .component:first-child {
         margin-top: 30px;
     }
-
     .component .overlap1 {
         float: right;
         left: -20px;
@@ -37,6 +36,7 @@ body {
         .component .overlap1:hover {
             background-color: red;
         }
+
 
     .component .overlap {
         position: absolute;
@@ -228,7 +228,7 @@ body {
 
     .component .text-wrapper-13 {
         width: 60px;
-        top: 181px;
+        top: 171px;
         left: 17px;
         font-weight: 400;
         color: #696969;
@@ -237,12 +237,12 @@ body {
         font-family: "Roboto", Helvetica;
         letter-spacing: 0;
         line-height: normal;
-
+        margin: 20px 0;
     }
 
     .component .text-wrapper-14 {
         width: 70px;
-        top: 144px;
+        top: 150px;
         left: 17px;
         font-weight: 700;
         color: #000000;
@@ -251,7 +251,7 @@ body {
         font-family: "Roboto", Helvetica;
         letter-spacing: 0;
         line-height: normal;
-
+        bottom: calc(100% + 10px); 
     }
 
     .component .text-wrapper-15 {
@@ -304,8 +304,8 @@ body {
 
     .component .overlap-2 {
         position: absolute;
-        width: 307px;
-        height: 259px;
+        width: 307px; 
+        height: 259px; 
         top: 78px;
         left: 404px;
         overflow: hidden;
@@ -326,7 +326,7 @@ body {
     .component .element {
         width: calc(100% - 10px);
         height: 140px;
-        padding: 6px;
+        padding: 6px; 
         font-weight: 400;
         color: #000000;
         font-size: 14px;

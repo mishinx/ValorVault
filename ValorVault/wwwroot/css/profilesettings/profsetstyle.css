@@ -4,11 +4,36 @@ body {
 }
 
 .component {
+    width: 100vw;
+    height: 100vh;
+    background-color: #76927a;
+    position: relative;
+}
+.overlap-group {
+    position: relative;
+    min-height: 100vh;
+    min-width: 100vh;
+    background-image: url('/images/mask-group1.png');
+    background-size: cover;
+}
+.component .top-text {
+    position: absolute;
+    top: 59px;
+    left: 100px;
+    font-family: "Roboto", Helvetica;
+    font-weight: 700;
+    color: #2b402e;
+    font-size: 30px;
+    letter-spacing: 0;
+    line-height: normal;
+    white-space: nowrap;
+}
+
+.component {
     position: relative;
     width: 990px;
     height: 950px;
     top: 40px;
-
 }
 
     .component .overlap1 {
@@ -168,7 +193,6 @@ body {
         line-height: normal;
         white-space: nowrap;
     }
-
     .component .text-wrapper-7 {
         top: 270px;
         left: 17px;

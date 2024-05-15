@@ -1,0 +1,68 @@
+﻿@model List<ValorVault.Models.SoldierInfo>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="~/css/profileview/soldlist.css" />
+    <link rel="stylesheet" href="~/css/profileview/global.css" />
+</head>
+
+<body>
+    <ul class="soldier-list">
+        @foreach (var soldier in Model)
+        {
+            <li class="component">
+                <button class="overlap1" onclick="goBack()"><img class="union2" src="~/images/union2.svg" /></button>
+                <div class="overlap">
+                    <img class="juice" src="data:image/jpeg;base64,@Convert.ToBase64String(soldier.photo)" width="150" height="150" />
+                </div>
+                <div class="div">
+                    <div class="text-wrapper text-wrapper">Позивний</div>
+                    <div class="text-wrapper text-wrapper-2">@soldier.call_sign </div>
+                    <div class="text-wrapper text-wrapper-3">Дата народження</div>
+                    <div class="text-wrapper text-wrapper-4"> @soldier.soldier_name, @soldier.age</div>
+                    <div class="text-wrapper text-wrapper-5">@soldier.birth_date.ToString("dd.MM.yyyy")</div>
+                    <div class="text-wrapper text-wrapper-6">Дата зникнення/смерті</div>
+
+                    <div class="text-wrapper text-wrapper-7">@soldier.death_date?.ToString("dd.MM.yyyy")</div>
+                    <div class="text-wrapper text-wrapper-8">Спогади</div>
+                    <div class="text-wrapper text-wrapper-9">Місце народження</div>
+
+                    <div class="text-wrapper text-wrapper-10">@soldier.birth_place</div>
+                    <div class="text-wrapper text-wrapper-11">Місце зникнення/смерті</div>
+
+                    <div class="text-wrapper text-wrapper-12">@soldier.missing_place</div>
+                    <div class="text-wrapper text-wrapper-13">Посада</div>
+
+                    <div class="text-wrapper text-wrapper-14">@soldier.rank</div>
+                    <div class="text-wrapper text-wrapper-15">@soldier.soldier_status</div>
+                    <div class="text-wrapper text-wrapper-16">Статус</div>
+                    <div class="text-wrapper text-wrapper-17">@soldier.source_ref</div>
+                    <div class="text-wrapper text-wrapper-18">Посилання</div>
+                    <div class="overlap-2">
+                        <div class="rectangle"></div>
+                        <div class="scrollable-element">
+                            <p class="element">
+                                <span class="span">
+                                    @soldier.other_info
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+
+    </script>
+
+</body>
+
+</html>

@@ -35,11 +35,18 @@ namespace ValorVault.Controllers
             return View(profile);
         }
 
-        public async Task<IActionResult> ProfileSettings(int id)
+        public async Task<IActionResult> ProfileSettings(int userId)
         {
-            var user = await _profileService.GetUser(id);
-
-            return View(user);
+            try
+            {
+                var user = await _profileService.GetUser(userId);
+                return View(user);
+            }
+            catch (Exception ex)
+            {
+                // Обробка помилки
+                return BadRequest(ex.Message);
+            }
         }
 
         public async Task<IActionResult> RandomProfile()

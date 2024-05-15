@@ -1,10 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using ValorVault.Models;
-using SoldierInfoContext;
 using ValorVault.Services;
 
 namespace ValorVault.Controllers
@@ -33,5 +28,4 @@ namespace ValorVault.Controllers
             return Ok(soldiers);
         }
     }
-
 }
