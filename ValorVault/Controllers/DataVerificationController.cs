@@ -3,7 +3,9 @@ using ValorVault.Services;
 
 namespace ValorVault.Controllers
 {
-    public class DataVerificationController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class DataVerificationController : ControllerBase
     {
         private readonly IDataVerificationService _dataVerificationService;
 
@@ -12,14 +14,14 @@ namespace ValorVault.Controllers
             _dataVerificationService = dataVerificationService;
         }
 
-        [HttpPost]
+        [HttpPost("MarkAsVerified/{soldierInfoId}")]
         public IActionResult MarkAsVerified(int soldierInfoId)
         {
             _dataVerificationService.MarkSoldierInfoAsVerified(soldierInfoId);
             return Ok("Анкета успішно підтверджена.");
         }
 
-        [HttpPost]
+        [HttpPost("MarkAsRejected/{soldierInfoId}")]
         public IActionResult MarkAsRejected(int soldierInfoId)
         {
             _dataVerificationService.MarkSoldierInfoAsRejected(soldierInfoId);

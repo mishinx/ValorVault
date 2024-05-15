@@ -1,0 +1,113 @@
+﻿body {
+    font-family: Arial, sans-serif;
+    background-color: #76937B;
+    margin: 0;
+    padding: 20px;
+}
+
+#container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.overlap-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 800px;
+    border: 1px solid #000;
+}
+
+.card-header {
+    background-color: #737373;
+    border-radius: 10px 10px 0 0;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+    .card-header img {
+        width: 24px;
+        height: 24px;
+    }
+
+    .card-header span {
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+.card-body {
+    display: flex;
+    padding: 20px;
+}
+
+.info {
+    flex: 2;
+}
+
+    .info p {
+        margin: 5px 0;
+    }
+
+.image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+    .image img {
+        max-width: 100%;
+        border-radius: 10px;
+    }
+
+.card-footer {
+    background-color: #f1f1f1;
+    border-radius: 0 0 10px 10px;
+    padding: 10px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.publish-button, .delete-button {
+    border: none;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.publish-button {
+    background-color: #8bc34a;
+}
+
+    .publish-button:hover {
+        background-color: #7cb342;
+    }
+
+    .publish-button:active {
+        background-color: #689f38;
+    }
+
+.delete-button {
+    background-color: #f44336;
+}
+
+    .delete-button:hover {
+        background-color: #5b1c1b;
+    }
+
+    .delete-button:active {
+        background-color: #f90a0a;
+    }

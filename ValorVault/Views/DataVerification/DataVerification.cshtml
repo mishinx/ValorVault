@@ -1,0 +1,73 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="~/css/DataVerification.css">
+</head>
+<body>
+    <div id="container"></div>
+
+    <script>
+        const data = [
+            {
+                fullName: 'Пільщиков Андрій Борисович',
+                age: 30,
+                birthDate: '03.02.1993',
+                deathDate: '25.08.2023',
+                birthPlace: 'Харків',
+                deathPlace: 'Житомирська область',
+                position: 'Льотчик',
+                callSign: 'Джус',
+                memories: 'Андрій Пільщиков народився 3 лютого 1993 року в Харкові, де навчався у гімназії № 116. У підлітковому віці відвідував аеродроми Харківщини. Уперше піднявся в небо на літаку Х-32-912 «Бекас» з пілотом громадської організації «Цивільний повітряний патруль». Закінчив Харківський національний університет Повітряних сил імені Івана Кожедуба.',
+                author: 'ПІБ',
+                image: "~/images/juice-4.png"
+            }
+            
+        ];
+
+        function createCard(data) {
+            return `
+                        <div class="overlap-group">
+                            <div class="card">
+                                <div class="card-header">
+                                            <img class="author-icon" src="~/images/avtor-10.png" alt="Автор">
+                                    <span>Автор: ${data.author}</span>
+                                </div>
+                                <div class="card-body">
+                                    <div class="info">
+                                        <p><strong>ПІБ, вік:</strong> ${data.fullName}, ${data.age}</p>
+                                        <p><strong>Позивний:</strong> ${data.callSign}</p>
+                                        <p><strong>Дата народження:</strong> ${data.birthDate}</p>
+                                        <p><strong>Дата зникнення/смерті:</strong> ${data.deathDate}</p>
+                                        <p><strong>Місце народження:</strong> ${data.birthPlace}</p>
+                                        <p><strong>Посада:</strong> ${data.position}</p>
+                                        <p><strong>Місце зникнення/смерті:</strong> ${data.deathPlace}</p>
+                                        <p><strong>Спогади:</strong> ${data.memories}</p>
+                                    </div>
+                                    <div class="image">
+                                        <img src="${data.image}" alt="Image">
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <button class="publish-button">Опублікувати</button>
+                                    <button class="delete-button">Видалити</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+        }
+
+        const container = document.getElementById('container');
+        data.forEach(item => {
+            container.innerHTML += createCard(item);
+        });
+    </script>
+</body>
+</html>
+
