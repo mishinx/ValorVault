@@ -58,11 +58,6 @@ namespace ValorVault.Services
                 throw new InvalidOperationException("User not found.");
             }
 
-            var result = await _userManager.GetUserIdAsync(user);
-            return user; // Додайте цей рядок, щоб повернути користувача
-        }
-
-
         public async Task<List<User>> GetAllUsers()
         {
             return await _context.Users.ToListAsync();
@@ -89,7 +84,7 @@ namespace ValorVault.Services
             }
             catch (Exception)
             {
-                // Обробка помилки, якщо щось пішло не так
+                // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ
                 return false;
             }
         }
@@ -109,7 +104,7 @@ namespace ValorVault.Services
             }
             catch (Exception)
             {
-                // Обробка помилки, якщо щось пішло не так
+                // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ
                 return false;
             }
         }
@@ -128,12 +123,12 @@ namespace ValorVault.Services
             }
             catch (Exception)
             {
-                // Обробка помилки, якщо щось пішло не так
+                // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ
                 return false;
             }
         }
 
-        public async Task DeleteUser(int UserId)
+        public async Task DeleteUser(int userId)
         {
             var user = await _userManager.FindByIdAsync(UserId.ToString());
             if (user == null)

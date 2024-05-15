@@ -1,32 +1,31 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using ValorVault.UserDtos;
 using ValorVault.Models;
-using System;
-using System.Security.Claims;
-using Serilog;
+using ValorVault.Controllers;
+using NuGet.Common;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
 namespace ValorVault.Services.UserService
 {
     public interface IUserService
     {
         Task<User> CreateUser(RegisterUserDto user);
-        Task<bool> SignInUser(LoginUserDto user);
+        Task<string> SignInUser(LoginUserDto user);
         Task LogOut();
-        Task DeleteUser(Guid userId);
-        Task<UserDto> GetUser(Guid id);
-        Task<User> UpdateUser(Guid id, User user);
+        Task DeleteUser(int userId);
+        Task<UserDto> GetUser(int id);
+        Task<int> GetIdByEmail(string email);
+        Task<User> UpdateUser(int id, User user);
     }
 
     public class UserService : IUserService
     {
-        //private readonly Serilog.ILogger _logger;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
 
-        public UserService(UserManager<User> userManager, SignInManager<User> signInManager)//, Serilog.ILogger logger)
+        public UserService(UserManager<User> userManager, SignInManager<User> signInManager)
         {
-            //_logger = logger;
-            _userManager = userManager;
+           _userManager = userManager;
             _signInManager = signInManager;
         }
 
@@ -34,20 +33,17 @@ namespace ValorVault.Services.UserService
         {
             if (user.Password != user.PasswordRepeat)
             {
-                //_logger.Error($"'Password' and 'Repeat Password' fields must be the same!");
                 throw new Exception("Паролі не співпадають!");
             }
 
             var existingUser = await _userManager.FindByEmailAsync(user.Email);
             if (existingUser != null)
             {
-                //_logger.Error($"User with Email {user.Email} already exists!");
                 throw new InvalidOperationException($"Користувач з такою поштою вже існує!");
             }
             var existingUserByUsername = await _userManager.FindByNameAsync(user.Username);
             if (existingUserByUsername != null)
             {
-                //_logger.Error($"User with Username {user.Username} already exists!");
                 throw new InvalidOperationException($"Користувач з таким іменем вже існує!");
             }
 
@@ -64,21 +60,29 @@ namespace ValorVault.Services.UserService
             if (!result.Succeeded)
             {
                 var errorMessage = string.Join(", ", result.Errors.Select(e => e.Description));
-                //_logger.Error($"Error occurred while creating user: {errorMessage}");
                 throw new Exception($"При створенні користувача виникла помилка: {errorMessage}");
             }
-            await _userManager.AddToRoleAsync(newUser, "User");
+            try
+            {
+                newUser.Id = newUser.UserId;
+                await _userManager.AddToRoleAsync(newUser, "User");
+            }
+            catch (Exception ex) 
+            {
+                Console.WriteLine(ex);
+                return null;
+            }
+            AuthenticationController.user_email = newUser.Email;
             return newUser;
         }
 
-        public async Task<bool> SignInUser(LoginUserDto user)
+        public async Task<string> SignInUser(LoginUserDto user)
         {
             var foundUser = await _userManager.FindByEmailAsync(user.Email);
 
             if (foundUser == null)
             {
-                //_logger.Error($"User not found!");
-                return false;
+                return null;
             }
             foundUser.Id = foundUser.UserId;
 
@@ -90,50 +94,70 @@ namespace ValorVault.Services.UserService
             }
             var result = await _signInManager.PasswordSignInAsync(foundUser.UserName, user.Password, true, false);
 
+            AuthenticationController.user_email = foundUser.Email;
             if (!result.Succeeded)
             {
-                //_logger.Error($"User not found!");
-                return false;
+                return null;
             }
+
             await _signInManager.SignInAsync(foundUser, true);
-            return true;
+            var isAdmin = await _userManager.IsInRoleAsync(foundUser, "Administrator");
+            if (isAdmin) 
+            {
+                return "Admin"; 
+            }
+            else 
+            {
+                return "User";
+            }
         }
 
         public async Task LogOut()
         {
             await _signInManager.SignOutAsync();
         }
-        public async Task DeleteUser(Guid userId)
+
+        public async Task DeleteUser(int userId)
         {
             var user = await _userManager.FindByIdAsync(userId.ToString());
             if (user == null)
             {
-                //_logger.Error($"User not found!");
                 throw new InvalidOperationException("User not found.");
             }
 
             var result = await _userManager.DeleteAsync(user);
             if (!result.Succeeded)
             {
-                //_logger.Error($"Failed to delete user.");
                 throw new InvalidOperationException("Failed to delete user.");
             }
+
         }
 
-        public async Task<UserDto> GetUser(Guid id)
+        public async Task<UserDto> GetUser(int id)
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
 
             if (user == null)
             {
-                //_logger.Error($"User with ID {id} not found.");
                 throw new Exception("Користувача не знайдено");
             }
 
             return new UserDto(user);
         }
 
-        public async Task<User> UpdateUser(Guid id, User updatedUser)
+        public async Task<int> GetIdByEmail(string email)
+        {
+            var foundUser = await _userManager.FindByEmailAsync(email);
+
+            if (foundUser == null)
+            {
+                throw new Exception("Користувача не знайдено");
+            }
+
+            return foundUser.UserId;
+        }
+
+        public async Task<User> UpdateUser(int id, User updatedUser)
         {
             var existingUser = await _userManager.FindByIdAsync(id.ToString());
             if (existingUser == null)
@@ -141,7 +165,20 @@ namespace ValorVault.Services.UserService
                 throw new InvalidOperationException("User not found.");
             }
 
+            if(updatedUser.Email != null)
+            {
+                AuthenticationController.user_email = updatedUser.Email;
+            }
+
+            var changePasswordResult = await _userManager.ChangePasswordAsync(existingUser, existingUser.user_password, updatedUser.user_password);
+            if (!changePasswordResult.Succeeded)
+            {
+                throw new InvalidOperationException("Failed to change password.");
+            }
+
             existingUser.username = updatedUser.username;
+            existingUser.UserName = updatedUser.username;
+            existingUser.email = updatedUser.Email;
             existingUser.Email = updatedUser.Email;
             existingUser.user_password = updatedUser.user_password;
 
