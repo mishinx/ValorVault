@@ -43,6 +43,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=SoldierInfo}/{action=Adding}/{id?}");
+    pattern: "{controller=DataVerification}/{action=DataVerification}/{id?}");
 
 app.Run();
