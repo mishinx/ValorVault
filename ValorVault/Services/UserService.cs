@@ -25,7 +25,7 @@ namespace ValorVault.Services.UserService
 
         public UserService(UserManager<User> userManager, SignInManager<User> signInManager)
         {
-           _userManager = userManager;
+            _userManager = userManager;
             _signInManager = signInManager;
         }
 
@@ -67,7 +67,7 @@ namespace ValorVault.Services.UserService
                 newUser.Id = newUser.UserId;
                 await _userManager.AddToRoleAsync(newUser, "User");
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 Console.WriteLine(ex);
                 return null;
@@ -102,11 +102,11 @@ namespace ValorVault.Services.UserService
 
             await _signInManager.SignInAsync(foundUser, true);
             var isAdmin = await _userManager.IsInRoleAsync(foundUser, "Administrator");
-            if (isAdmin) 
+            if (isAdmin)
             {
-                return "Admin"; 
+                return "Admin";
             }
-            else 
+            else
             {
                 return "User";
             }
@@ -165,7 +165,7 @@ namespace ValorVault.Services.UserService
                 throw new InvalidOperationException("User not found.");
             }
 
-            if(updatedUser.Email != null)
+            if (updatedUser.Email != null)
             {
                 AuthenticationController.user_email = updatedUser.Email;
             }

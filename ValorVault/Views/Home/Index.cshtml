@@ -21,7 +21,7 @@
                 <input type="text" class="text-wrapper-4 search-box" id="searchBox2" data-default="Пошук за позивним">
                 <img class="union" src="~/images/union.svg" />
                 <img class="line" src="~/images/line-2.svg" />
-                <div class="div-wrapper"><button class="text-wrapper-5">Шукати</button></div>
+                <div class="div-wrapper"><button class="text-wrapper-5" id="searchButton">Шукати</button></div>
             </div>
             <div class="overlap-2"><button class="text-wrapper-6" onclick="redirectToAuthentication()">Вхід</button></div>
         </div>
@@ -47,6 +47,20 @@
                     searchBox.value = defaultText;
                 }
             });
+        });
+        var searchButton = document.getElementById('searchButton');
+
+        searchButton.addEventListener('click', function () {
+            var searchBox1Value = document.getElementById('searchBox1').value;
+            var searchBox2Value = document.getElementById('searchBox2').value;
+
+            if (searchBox1Value !== '' && searchBox2Value !== '') {
+                window.location.href = '/SoldierInfo/Search?name=' + encodeURIComponent(searchBox1Value) + '&callSign=' + encodeURIComponent(searchBox2Value);
+            } else if (searchBox1Value !== '') {
+                window.location.href = '/SoldierInfo/SearchByName?name=' + encodeURIComponent(searchBox1Value);
+            } else if (searchBox2Value !== '') {
+                window.location.href = '/SoldierInfo/SearchByCallSign?callSign=' + encodeURIComponent(searchBox2Value);
+            }
         });
         function redirectToRegistration() {
             window.location.href = '/Registration/Register';
