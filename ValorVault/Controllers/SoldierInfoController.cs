@@ -6,210 +6,163 @@ using ValorVault.Controllers;
 
 namespace ValorVault.Controllers
 {
-    public class SoldierInfoController : Controller
-    {
-        private readonly ISoldierInfoService _soldierInfoService;
-public class SoldierInfoController : Controller
-{
-    private readonly ISoldierInfoService _soldierInfoService;
-    private readonly IUserService _userService;
-    private readonly ISourceService _sourceService;
-
-        public SoldierInfoController(ISoldierInfoService soldierInfoService)
+        public class SoldierInfoController : Controller
         {
-            _soldierInfoService = soldierInfoService;
-        }
-    public SoldierInfoController(ISoldierInfoService soldierInfoService, IUserService userService, ISourceService sourceService)
-    {
-        _soldierInfoService = soldierInfoService;
-        _userService = userService;
-        _sourceService = sourceService;
-    }
+            private readonly ISoldierInfoService _soldierInfoService;
+            private readonly IUserService _userService;
+            private readonly ISourceService _sourceService;
 
-        [HttpGet]
-        public IActionResult Adding()
-        {
-            return View();
-        }
-    [HttpGet]
-    public IActionResult Adding()
-    {
-        return View();
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> AddSource(Source model)
-    {
-        try
-        {
-            await _sourceService.AddSource(model);
-            return Ok();
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, $"Помилка при додаванні джерела: {ex.Message}");
-        }
-    }
-
-
-        [HttpPost]
-        public async Task<IActionResult> Adding(SoldierInfo model, IFormFile photo)
-        {
-            if (photo != null && photo.Length > 0)
+            public SoldierInfoController(ISoldierInfoService soldierInfoService)
             {
-                var photoBytes = await ImageFormatter.ConvertToByteArray(photo);
-                if (photoBytes != null)
+                _soldierInfoService = soldierInfoService;
+            }
+            public SoldierInfoController(ISoldierInfoService soldierInfoService, IUserService userService, ISourceService sourceService)
+            {
+                _soldierInfoService = soldierInfoService;
+                _userService = userService;
+                _sourceService = sourceService;
+            }
+
+            [HttpGet]
+            public IActionResult Adding()
+            {
+                return View();
+            }
+
+            [HttpPost]
+            public async Task<IActionResult> AddSource(Source model)
+            {
+                try
                 {
-                    model.photo = photoBytes;
+                    await _sourceService.AddSource(model);
+                    return Ok();
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, $"Помилка при додаванні джерела: {ex.Message}");
+                }
+            }
+
+            [HttpPost]
+            public async Task<IActionResult> Adding(SoldierInfo model, IFormFile photo)
+            {
+                if (photo != null && photo.Length > 0)
+                {
+                    var photoBytes = await ImageFormatter.ConvertToByteArray(photo);
+                    if (photoBytes != null)
+                    {
+                        model.photo = photoBytes;
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("Photo", "There was a problem converting the photo.");
+                    }
                 }
                 else
                 {
-                    ModelState.AddModelError("Photo", "There was a problem converting the photo.");
+                    ModelState.AddModelError("Photo", "Photo is required.");
                 }
-            }
-            else
-            {
-                ModelState.AddModelError("Photo", "Photo is required.");
+
+                model.birth_date = DateTime.SpecifyKind(model.birth_date, DateTimeKind.Utc);
+                model.death_date = model.death_date.HasValue ? DateTime.SpecifyKind(model.death_date.Value, DateTimeKind.Utc) : (DateTime?)null;
+                model.admin_ref = 2;
+                model.user_ref = _userService.GetIdByEmail(AuthenticationController.user_email).Result;
+                model.source_ref = 1;
+                _soldierInfoService.AddSoldierInfo(model);
+                return RedirectToAction("Main_registered", "Home");
             }
 
-            model.birth_date = model.birth_date.ToUniversalTime();
-            model.admin_ref = 2;
-            model.user_ref = 23;
-            model.source_ref = 1;
-            _soldierInfoService.AddSoldierInfo(model);
-            return RedirectToAction("Index", "Home");
-        }
-    [HttpPost]
-    public async Task<IActionResult> Adding(SoldierInfo model, IFormFile photo)
-    {
-        if (photo != null && photo.Length > 0)
-        {
-            var photoBytes = await ImageFormatter.ConvertToByteArray(photo);
-            if (photoBytes != null)
+            [HttpPost]
+            public IActionResult Edit(SoldierInfo model)
             {
-                model.photo = photoBytes;
+                if (ModelState.IsValid)
+                {
+                    _soldierInfoService.UpdateSoldierInfo(model);
+                    return RedirectToAction("Index");
+                }
+                return View(model);
             }
-            else
-            {
-                ModelState.AddModelError("Photo", "There was a problem converting the photo.");
-            }
-        }
-        else
-        {
-            ModelState.AddModelError("Photo", "Photo is required.");
-        }
 
-        model.birth_date = DateTime.SpecifyKind(model.birth_date, DateTimeKind.Utc);
-        model.death_date = model.death_date.HasValue ? DateTime.SpecifyKind(model.death_date.Value, DateTimeKind.Utc) : (DateTime?)null;
-        model.admin_ref = 2;
-        model.user_ref = _userService.GetIdByEmail(AuthenticationController.user_email).Result;
-        model.source_ref = 1;
-        _soldierInfoService.AddSoldierInfo(model);
-        return RedirectToAction("Main_registered", "Home");
-    }
-
-        [HttpGet]
-        public IActionResult Edit(int id)
-        {
-            var soldierInfo = _soldierInfoService.GetSoldierInfoById(id);
-            if (soldierInfo == null)
+            [HttpPost]
+            public IActionResult Delete(int id)
             {
-                return NotFound();
-            }
-            return View(soldierInfo);
-        }
-
-        [HttpPost]
-        public IActionResult Edit(SoldierInfo model)
-        {
-            if (ModelState.IsValid)
-            {
-                _soldierInfoService.UpdateSoldierInfo(model);
+                _soldierInfoService.DeleteSoldierInfo(id);
                 return RedirectToAction("Index");
             }
-            return View(model);
-        }
 
-        [HttpPost]
-        public IActionResult Delete(int id)
-        {
-            _soldierInfoService.DeleteSoldierInfo(id);
-            return RedirectToAction("Index");
-        }
-
-        public IActionResult SearchByName(string name)
-        {
-            var soldiers = _soldierInfoService.GetSoldiersByName(name);
-            if (soldiers == null || !soldiers.Any())
+            public IActionResult SearchByName(string name)
             {
-                return NotFound();
-            }
-
-            if (soldiers.Count == 1)
-            {
-                return RedirectToAction("ProfileView", new { id = soldiers.First().soldier_info_id });
-            }
-
-            return View("SoldiersList", soldiers);
-        }
-
-
-        public IActionResult SearchByCallSign(string callSign)
-        {
-            var soldiers = _soldierInfoService.GetSoldiersByCallSign(callSign);
-            if (soldiers == null || soldiers.Count == 0)
-            {
-                return NotFound();
-            }
-
-            return View("SoldiersList", soldiers);
-        }
-
-        public IActionResult ProfileView(int id)
-        {
-            var soldier = _soldierInfoService.GetSoldierById(id);
-            if (soldier == null)
-            {
-                return NotFound();
-            }
-
-            return View(soldier);
-        }
-
-        [HttpGet]
-        public IActionResult SoldiersList(string callSign)
-        {
-            var soldiersByCallSign = _soldierInfoService.GetSoldiersByCallSign(callSign);
-            if (soldiersByCallSign == null || !soldiersByCallSign.Any())
-            {
-                return NotFound();
-            }
-
-            return View(soldiersByCallSign);
-        }
-
-        [HttpGet]
-        public IActionResult Search(string name, string callSign)
-        {
-            var soldiersByName = _soldierInfoService.GetSoldiersByName(name);
-            var soldiersByCallSign = _soldierInfoService.GetSoldiersByCallSign(callSign);
-
-            if (soldiersByName != null && soldiersByName.Any())
-            {
-                if (soldiersByName.Count == 1)
+                var soldiers = _soldierInfoService.GetSoldiersByName(name);
+                if (soldiers == null || !soldiers.Any())
                 {
-                    return RedirectToAction("ProfileView", new { id = soldiersByName.First().soldier_info_id });
+                    return NotFound();
                 }
-                return View("SoldiersList", soldiersByName);
+
+                if (soldiers.Count == 1)
+                {
+                    return RedirectToAction("ProfileView", new { id = soldiers.First().soldier_info_id });
+                }
+
+                return View("SoldiersList", soldiers);
             }
 
-            if (soldiersByCallSign != null && soldiersByCallSign.Any())
+
+            public IActionResult SearchByCallSign(string callSign)
             {
-                return View("SoldiersList", soldiersByCallSign);
+                var soldiers = _soldierInfoService.GetSoldiersByCallSign(callSign);
+                if (soldiers == null || soldiers.Count == 0)
+                {
+                    return NotFound();
+                }
+
+                return View("SoldiersList", soldiers);
             }
 
-            return NotFound();
-        }
+            public IActionResult ProfileView(int id)
+            {
+                var soldier = _soldierInfoService.GetSoldierById(id);
+                if (soldier == null)
+                {
+                    return NotFound();
+                }
 
-    }
+                return View(soldier);
+            }
+
+            [HttpGet]
+            public IActionResult SoldiersList(string callSign)
+            {
+                var soldiersByCallSign = _soldierInfoService.GetSoldiersByCallSign(callSign);
+                if (soldiersByCallSign == null || !soldiersByCallSign.Any())
+                {
+                    return NotFound();
+                }
+
+                return View(soldiersByCallSign);
+            }
+
+            [HttpGet]
+            public IActionResult Search(string name, string callSign)
+            {
+                var soldiersByName = _soldierInfoService.GetSoldiersByName(name);
+                var soldiersByCallSign = _soldierInfoService.GetSoldiersByCallSign(callSign);
+
+                if (soldiersByName != null && soldiersByName.Any())
+                {
+                    if (soldiersByName.Count == 1)
+                    {
+                        return RedirectToAction("ProfileView", new { id = soldiersByName.First().soldier_info_id });
+                    }
+                    return View("SoldiersList", soldiersByName);
+                }
+
+                if (soldiersByCallSign != null && soldiersByCallSign.Any())
+                {
+                    return View("SoldiersList", soldiersByCallSign);
+                }
+
+                return NotFound();
+            }
+
+        }
 }

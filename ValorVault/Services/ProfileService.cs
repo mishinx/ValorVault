@@ -52,14 +52,12 @@ namespace ValorVault.Services
 
         public async Task<User> GetUser(int userId)
         {
-            var user = await _userManager.FindByIdAsync(userId.ToString());
-            if (user == null)
-            {
-                throw new InvalidOperationException("User not found.");
-            }
+            return await _context.Users.FirstOrDefaultAsync(u => u.UserId == userId);
+        }
 
         public async Task<List<User>> GetAllUsers()
         {
+            return await _context.Users.ToListAsync();
             return await _context.Users.ToListAsync();
         }
 
@@ -67,24 +65,28 @@ namespace ValorVault.Services
         public async Task<List<SoldierInfo>> GetAllProfiles()
         {
             return await _context.soldier_infos.ToListAsync();
+            return await _context.soldier_infos.ToListAsync();
         }
 
 
-        public async Task<bool> UpdateEmailAsync(int userId, string email)
+        public async Task<bool> UpdateEmailAsync(int userId, string newEmail)
         {
             try
             {
-                var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == userId);
+                var user = await _userManager.FindByIdAsync(userId.ToString());
                 if (user == null)
-                    return false;
+                {
+                    throw new InvalidOperationException("User not found.");
+                }
 
-                user.Email = email;
-                await _context.SaveChangesAsync();
-                return true;
+                user.Email = newEmail;
+                var result = await _userManager.UpdateAsync(user);
+
+                return result.Succeeded;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // ������� �������, ���� ���� ���� �� ���
+                Console.WriteLine(ex.Message);
                 return false;
             }
         }
@@ -95,42 +97,47 @@ namespace ValorVault.Services
             {
                 var user = await _userManager.FindByIdAsync(userId.ToString());
                 if (user == null)
-                    return false;
+                {
+                    throw new InvalidOperationException("User not found.");
+                }
 
-                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-                var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
+                await _userManager.RemovePasswordAsync(user);
+                var result = await _userManager.AddPasswordAsync(user, newPassword);
 
                 return result.Succeeded;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // ������� �������, ���� ���� ���� �� ���
+                Console.WriteLine(ex.Message);
                 return false;
             }
         }
 
-        public async Task<bool> UpdateUsernameAsync(int userId, string username)
+        public async Task<bool> UpdateUsernameAsync(int userId, string newUsername)
         {
             try
             {
-                var user = await _context.Users.FirstOrDefaultAsync(User => User.UserId == userId);
+                var user = await _userManager.FindByIdAsync(userId.ToString());
                 if (user == null)
-                    return false;
+                {
+                    throw new InvalidOperationException("User not found.");
+                }
 
-                user.username = username;
-                await _context.SaveChangesAsync();
-                return true;
+                user.username = newUsername;
+                var result = await _userManager.UpdateAsync(user);
+
+                return result.Succeeded;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // ������� �������, ���� ���� ���� �� ���
+                Console.WriteLine(ex.Message);
                 return false;
             }
         }
 
         public async Task DeleteUser(int userId)
         {
-            var user = await _userManager.FindByIdAsync(UserId.ToString());
+            var user = await _userManager.FindByIdAsync(userId.ToString());
             if (user == null)
             {
                 throw new InvalidOperationException("User not found.");
