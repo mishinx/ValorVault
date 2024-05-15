@@ -1,0 +1,176 @@
+.component {
+    width: 100%;
+    height: 100%;
+    background-color: #76927a;
+}
+
+.overlap-group {
+    position: relative;
+    min-height: 100vh;
+    min-width: 100vh;
+    background-image: url('/images/mask-group1.png');
+    background-size: cover;
+}
+
+.component .text-wrapper {
+    position: absolute;
+    top: 59px;
+    left: 100px;
+    font-family: "Roboto", Helvetica;
+    font-weight: 700;
+    color: #2b402e;
+    font-size: 30px;
+    letter-spacing: 0;
+    line-height: normal;
+    white-space: nowrap;
+}
+
+.component .div {
+    top: 249px;
+    left: 100px;
+    font-weight: 700;
+    color: #000000cc;
+    font-size: 48px;
+    position: absolute;
+    font-family: "Roboto", Helvetica;
+    letter-spacing: 0;
+    line-height: normal;
+    white-space: nowrap;
+}
+
+.component .overlap {
+    position: absolute;
+    width: 763px;
+    height: 86px;
+    top: 370px;
+    left: 85px;
+    background-color: #d9d9d9;
+    box-shadow: 0px 6px 5px #0000000d;
+}
+.component .union {
+    position: absolute;
+    width: 27px;
+    height: 25px;
+    top: 30px;
+    left: 20px;
+}
+
+.component .line {
+    position: absolute;
+    width: 1px;
+    height: 86px;
+    top: 0;
+    left: 296px;
+    object-fit: cover;
+}
+
+.component .div-wrapper {
+    position: absolute;
+    width: 167px;
+    height: 86px;
+    top: 0;
+    left: 596px;
+    background-color: #2b412f;
+}
+
+.component .overlap-2 {
+    position: absolute;
+    width: 69px;
+    height: 45px;
+    top: 60px;
+    right: 20px; /* Adjust the right position instead of left */
+    background-color: #d9d9d9;
+}
+
+.component .text-wrapper-3,
+.component .text-wrapper-4 {
+    font-weight: 500;
+    color: #696969;
+    font-size: 15px;
+    position: absolute;
+    font-family: "Roboto", Helvetica;
+    letter-spacing: 0;
+    line-height: normal;
+    white-space: nowrap;
+    background-color: transparent; /* Remove background color */
+    border: none; /* Remove border */
+    outline: none;
+}
+
+.component .text-wrapper-3 {
+    width: 210px;
+    top: 35px;
+    left: 61px;
+}
+
+.component .text-wrapper-4 {
+    width: 255px;
+    top: 35px;
+    left: 319px;
+}
+
+.component .text-wrapper-2 {
+    top: 72px;
+    right: 100px;
+    font-weight: 500;
+    color: #00000080;
+    font-size: 15px;
+    position: absolute;
+    font-family: "Roboto", Helvetica;
+    letter-spacing: 0;
+    line-height: normal;
+    white-space: nowrap;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+.component .text-wrapper-2:hover {
+    color: #ff0000; /* ���� ������� ��� ��������� */
+}
+
+.component .text-wrapper-2:active {
+    color: #000000cc; /* ���� ������� ��� ���������� */
+}
+
+
+.component .text-wrapper-5 {
+    width: 167px;
+    height: 86px;
+    font-weight: 500;
+    color: #ffffff;
+    font-size: 15px;
+    position: absolute;
+    font-family: "Roboto", Helvetica;
+    letter-spacing: 0;
+    line-height: normal;
+    white-space: nowrap;
+    background-color:transparent;
+    border:none;
+}
+    .component .text-wrapper-5:hover{
+        background-color:#76927a
+    }
+    .component .text-wrapper-5:active {
+        background-color: #073308
+    }
+
+    .component .text-wrapper-6 {
+        width: 70px;
+        height: 45px;
+        font-weight: 500;
+        color: #000000;
+        font-size: 15px;
+        position: absolute;
+        font-family: "Roboto", Helvetica;
+        letter-spacing: 0;
+        line-height: normal;
+        white-space: nowrap;
+        background-color: #d9d9d9;
+        border: none;
+    }
+.component .text-wrapper-6:hover {
+    background-color: #0000000d;
+}
+.component .text-wrapper-6:active {
+    background-color: #00000080;
+}

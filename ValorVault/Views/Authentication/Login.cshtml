@@ -1,0 +1,36 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="~/css/global.css" />
+    <link rel="stylesheet" href="~/css/main registered.css" />
+    <link rel="stylesheet" href="~/css/authentication.css" />
+</head>
+<body>
+    <div class="component">
+        <div class="overlap-group">
+            <a href="~/Home/Index" class="text-wrapper">ValorVault</a>
+            <form method="post" asp-controller="Authentication" asp-action="Authenticate" class="input-container">
+                <div class="form-group">
+                    <input type="email" class="input-field" name="Email" placeholder="Електронна пошта" required />
+                </div>
+                <div class="form-group">
+                    <input type="password" class="input-field" name="Password" placeholder="Пароль" required />
+                </div>
+                <button type="submit" class="btn_submit">Увійти</button>
+                @if (!String.IsNullOrEmpty(TempData["LoginErrorMessage"] as string))
+                {
+                    <div class="alert alert-danger">
+                        @TempData["LoginErrorMessage"]
+                    </div>
+                }
+                <div class="registration-message">Ще не маєте аккаунта? <a href="/Registration/Register">Зареєструватися</a></div>
+            </form>            
+        </div>
+    </div>
+</body>
+</html>
