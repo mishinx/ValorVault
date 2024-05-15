@@ -135,7 +135,6 @@ namespace ValorVault.Services
             }
         }
 
-
         public async Task DeleteUser(int userId)
         {
             var user = await _userManager.FindByIdAsync(userId.ToString());

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using ValorVault.Models;
 using ValorVault.Services.UserService;
 using ValorVault.UserDtos;
@@ -8,7 +9,7 @@ namespace ValorVault.Controllers
     public class AuthenticationController : Controller
     {
         private readonly IUserService _userService;
-
+        public static string user_email = "";
         public AuthenticationController(IUserService userService)
         {
             _userService = userService;
@@ -25,7 +26,7 @@ namespace ValorVault.Controllers
             try
             {
                 var role = _userService.SignInUser(userDto).Result;
-
+                user_email = userDto.Email;
                 if (role == null)
                 {
                     TempData["LoginErrorMessage"] = "Неправильний email або пароль.";

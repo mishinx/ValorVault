@@ -1,11 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Threading.Tasks;
 using ValorVault.Models;
-using ValorVault.Services;
-using ValorVault.Services.UserService;
-using ValorVault.UserDtos;
 using ValorVault.Services.UserService;
 using ValorVault.UserDtos;
 
@@ -19,7 +13,6 @@ namespace ValorVault.Controllers
         public ProfileViewController(IProfileService profileService, IUserService userService)
         {
             _profileService = profileService;
-            _userService = userService;
             _userService = userService;
         }
 
@@ -36,11 +29,17 @@ namespace ValorVault.Controllers
             return View(profile);
         }
 
-        public async Task<IActionResult> ProfileSettings(int id)
+        [HttpGet]
+        public async Task<IActionResult> ProfileSettings()
         {
-            var user = await _profileService.GetUser(id);
-
-            return View(user);
+            var user_id = await _userService.GetIdByEmail(AuthenticationController.user_email);
+            var user = await _userService.GetUser(user_id);
+            User user_for_action = new User
+            {
+                Email = user.Email,
+                UserName = user.Name,
+            };
+            return View(user_for_action);
         }
 
         public async Task<IActionResult> RandomProfile()
@@ -55,19 +54,20 @@ namespace ValorVault.Controllers
             return View(users);
         }
 
-        [HttpPut("{id}/UpdateEmail")]
-        public async Task<IActionResult> UpdateEmail(int id, [FromBody] string newEmail)
+        [HttpPost("Update")]
+        public IActionResult Update(User updated_user)
         {
             try
             {
-                bool success = await _profileService.UpdateEmailAsync(id, newEmail);
-                if (success)
+                int user_id = _userService.GetIdByEmail(AuthenticationController.user_email).Result;
+                User new_user  = _userService.UpdateUser(user_id, updated_user).Result;
+                if (new_user != null)
                 {
-                    return Ok("Email updated successfully.");
+                    return View("Main_registered");
                 }
                 else
                 {
-                    return BadRequest("Failed to update email.");
+                    return BadRequest("Failed to update data.");
                 }
             }
             catch (Exception ex)
@@ -75,57 +75,13 @@ namespace ValorVault.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-
-        [HttpPut("{id}/UpdatePassword")]
-        public async Task<IActionResult> UpdatePassword(int id, [FromBody] string newPassword)
-        {
-            try
-            {
-                bool success = await _profileService.UpdatePasswordAsync(id, newPassword);
-                if (success)
-                {
-                    return Ok("Password updated successfully.");
-                }
-                else
-                {
-                    return BadRequest("Failed to update password.");
-                }
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-        }
-
-        [HttpPut("{id}/UpdateUsername")]
-        public async Task<IActionResult> UpdateUsername(int id, [FromBody] string newUsername)
-        {
-            try
-            {
-                bool success = await _profileService.UpdateUsernameAsync(id, newUsername);
-                if (success)
-                {
-                    return Ok("Username updated successfully.");
-                }
-                else
-                {
-                    return BadRequest("Failed to update username.");
-                }
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-        }
-
-
 
         [HttpPost]
         public async Task<IActionResult> DeleteUser(int userId)
         {
             try
             {
-                await _profileService.DeleteUser(userId);
+                await _userService.DeleteUser(userId);
                 return Ok(new { message = "User deleted successfully" });
             }
             catch (InvalidOperationException ex)
@@ -137,6 +93,5 @@ namespace ValorVault.Controllers
                 return StatusCode(500, new { message = "Failed to delete user" });
             }
         }
-
     }
 }
