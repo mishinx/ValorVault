@@ -1,17 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using System;
 using ValorVault.Models;
-using ValorVault.Services;
+using ValorVault.Services.UserService;
+using ValorVault.Services.SourceService;
+using ValorVault.Controllers;
 
 public class SoldierInfoController : Controller
 {
     private readonly ISoldierInfoService _soldierInfoService;
+    private readonly IUserService _userService;
+    private readonly ISourceService _sourceService;
 
-    public SoldierInfoController(ISoldierInfoService soldierInfoService)
+    public SoldierInfoController(ISoldierInfoService soldierInfoService, IUserService userService, ISourceService sourceService)
     {
         _soldierInfoService = soldierInfoService;
+        _userService = userService;
+        _sourceService = sourceService;
     }
 
     [HttpGet]
@@ -19,6 +22,21 @@ public class SoldierInfoController : Controller
     {
         return View();
     }
+
+    [HttpPost]
+    public async Task<IActionResult> AddSource(Source model)
+    {
+        try
+        {
+            await _sourceService.AddSource(model);
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Помилка при додаванні джерела: {ex.Message}");
+        }
+    }
+
 
     [HttpPost]
     public async Task<IActionResult> Adding(SoldierInfo model, IFormFile photo)
@@ -39,13 +57,14 @@ public class SoldierInfoController : Controller
         {
             ModelState.AddModelError("Photo", "Photo is required.");
         }
-        
-        model.birth_date = model.birth_date.ToUniversalTime();
+
+        model.birth_date = DateTime.SpecifyKind(model.birth_date, DateTimeKind.Utc);
+        model.death_date = model.death_date.HasValue ? DateTime.SpecifyKind(model.death_date.Value, DateTimeKind.Utc) : (DateTime?)null;
         model.admin_ref = 2;
-        model.user_ref = 23;
+        model.user_ref = _userService.GetIdByEmail(AuthenticationController.user_email).Result;
         model.source_ref = 1;
         _soldierInfoService.AddSoldierInfo(model);
-        return RedirectToAction("Index", "Home");
+        return RedirectToAction("Main_registered", "Home");
     }
 
     [HttpGet]
