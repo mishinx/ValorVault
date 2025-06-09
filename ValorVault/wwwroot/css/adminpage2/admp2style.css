@@ -1,0 +1,82 @@
+body {
+    font-family: sans-serif;
+    background-color: #76927a;
+}
+
+.user-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+    .user-list li {
+        background-color: #d9d9d9;
+        border-radius: 15px;
+        margin-bottom: 20px;
+        padding: 20px;
+    }
+
+        .user-list li p {
+            margin: 0;
+            font-family: "Roboto", Helvetica;
+            font-weight: 400;
+            color: #000000;
+            font-size: 18px;
+            letter-spacing: 0;
+            line-height: normal;
+        }
+
+
+.search-container {
+    right: -15px;
+    position: relative;
+    display: inline-block;
+    width: calc(100% - 20px);
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+    .search-container img {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        width: 30px;
+        height: 30px;
+    }
+
+#searchInput {
+    width: 100%;
+    height: 50px;
+    padding-right: 40px;
+    border-radius: 15px;
+    border: none; 
+    outline: none;
+}
+
+
+
+.delete-button {
+    position: relative;
+    top: -12px; 
+    float: right;
+}
+
+    .delete-button button {
+        background-color: #f44336;
+        color: black;
+        border: none;
+        padding: 5px 10px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 18px;
+        margin-right: 10px;
+        margin-bottom: 40px;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: background-color 0.3s;
+    }
+
+        .delete-button button:hover {
+            background-color: #d32f2f;
+        }

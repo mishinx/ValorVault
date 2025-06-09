@@ -1,0 +1,42 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="~/css/global.css" />
+    <link rel="stylesheet" href="~/css/main registered.css" />
+    <link rel="stylesheet" href="~/css/registration.css" />
+</head>
+<body>
+    <div class="component">
+        <div class="overlap-group">
+            <a href="~/Home/Index" class="text-wrapper">ValorVault</a>
+            <form method="post" asp-controller="Registration" asp-action="Register" class="input-container">
+                <div class="form-group">
+                    <input type="text" class="input-field" name="username" placeholder="Ім'я користувача" required />
+                </div>
+                <div class="form-group">
+                    <input type="email" class="input-field" name="email" placeholder="Електронна пошта" required />
+                </div>
+                <div class="form-group">
+                    <input type="password" class="input-field" name="password" placeholder="Пароль" required />
+                </div>
+                <div class="form-group">
+                    <input type="password" class="input-field" name="PasswordRepeat" placeholder="Повторіть пароль" required />
+                </div>
+                @if (!String.IsNullOrEmpty(TempData["RegisterErrorMessage"] as string))
+                {
+                    <div class="alert alert-danger">
+                        @TempData["RegisterErrorMessage"]
+                    </div>
+                }
+                <button type="submit" class="btn_submit">Зареєструватися</button>
+                <div class="registration-message">У вас вже є аккаунт? <a href="/Authentication/Login">Увійти</a></div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

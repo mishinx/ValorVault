@@ -1,0 +1,62 @@
+﻿@model ValorVault.Models.SoldierInfo
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="~/css/profileview/profviewstyle.css" />
+    <link rel="stylesheet" href="~/css/profileview/global.css" />
+</head>
+
+<body>
+    <div class="component">
+        <button class="overlap1" onclick="goBack()"><img class="union2" src="images/union2.svg" /></button>
+        <div class="overlap">
+            <a href="~/Home/Index" class="text-wrapper">ValorVault</a>
+            <img class="juice" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.photo)" width="150" height="150" />
+        </div>
+        <div class="div">
+            <div class="text-wrapper">Позивний</div>
+            <div class="text-wrapper-2">@Model.call_sign </div>
+            <div class="text-wrapper-3">Дата народження</div>
+            <div class="text-wrapper-4">@Model.soldier_name, @Model.age</div>
+            <div class="text-wrapper-5">@Model.birth_date.ToString("dd.MM.yyyy")</div>
+            <div class="text-wrapper-6">Дата зникнення/смерті</div>
+
+            <div class="text-wrapper-7">@Model.death_date?.ToString("dd.MM.yyyy")</div>
+            <div class="text-wrapper-8">Спогади</div>
+            <div class="text-wrapper-9">Місце народження</div>
+
+            <div class="text-wrapper-10">@Model.birth_place</div>
+            <div class="text-wrapper-11">Місце зникнення/смерті</div>
+
+            <div class="text-wrapper-12">@Model.missing_place</div>
+            <div class="text-wrapper-13">Посада</div>
+
+            <div class="text-wrapper-14">@Model.rank</div>
+            <div class="text-wrapper-15">@Model.soldier_status</div>
+            <div class="text-wrapper-16">Статус</div>
+            <div class="text-wrapper-17">@Model.source_ref</div>
+            <div class="text-wrapper-18">Посилання</div>
+            <div class="overlap-2">
+                <div class="rectangle"></div>
+                <p class="element">
+                    <span class="span">
+                        @Model.other_info
+                    </span>
+                </p>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+
+</body>
+
+</html>
+

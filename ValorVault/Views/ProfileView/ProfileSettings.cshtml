@@ -1,0 +1,55 @@
+﻿@{
+    Layout = null;
+}
+@model ValorVault.Models.User
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"
+    <link rel="stylesheet" href="~/css/profilesettings/global.css" />
+    <link rel="stylesheet" href="~/css/profilesettings/profsetstyle.css" />
+</head>
+<body>
+    <form method="post" asp-controller="ProfileView" asp-action="Update">
+        <div class="component">
+            <div class="overlap-group">
+                <div class="overlap">
+                    <button class="overlap1" type="button" onclick="goBack()"><img class="union2" src="/images/union2.svg" /></button>
+                    <img class="avtor" src="/images/avtor-8.png" width="200" height="200" />
+                </div>
+                <div class="div">
+                    <div class="text-wrapper">Ім‘я</div>
+                    <div class="text-wrapper-2">Електронна пошта</div>
+                    <div class="overlap-2">
+                        <input type="email" id="email" name="Email" value="@Model.Email" class="text-wrapper-3">
+                    </div>
+                    <div class="text-wrapper-4">Пароль</div>
+                    <div class="overlap-3">
+                        <input type="password" id="user_password" name="user_password" value="@Model.user_password" class="text-wrapper-5">
+                    </div>
+                    <div class="text-wrapper-6">Кількість створених анкет: 0</div>
+                    <div class="text-wrapper-7">Кількість опублікованих анкет: 0</div>
+                    <div class="text-wrapper-8">Кількість відхилених анкет: 0</div>
+                    <div class="overlap-4">
+                        <input type="text" id="username" name="Username" value="@Model.UserName" class="text-wrapper-9"><br>
+                    </div>
+                    <div class="overlap-5">
+                        <button type="submit" class="submit-btn">Підтвердити</button>
+                    </div>
+                </div>
+            </div>
+            <button class="saveChanges" onclick="saveChanges('@Model.UserId')">Підтвердити</button>
+            <div id="message"></div> <!-- Виведення повідомлення про успіх або помилку -->
+        </div>
+    </form>
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+        // function submitForm() {
+        //     document.querySelector('form').submit();
+        // }
+    </script>
+</body>
+</html>

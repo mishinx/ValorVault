@@ -1,15 +1,40 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using SoldierInfoContext;
+using ValorVault.Models;
+using ValorVault.Services;
+using ValorVault.Services.SourceService;
+using ValorVault.Services.UserService;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IProfileService, ProfileService>();
+builder.Services.AddScoped<IUserService, UserService>();
+
+builder.Services.AddDbContext<SoldierInfoDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("SoldierInfoDatabase")));
+
+builder.Services.AddIdentity<User, IdentityRole<int>>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = false;
+})
+.AddEntityFrameworkStores<SoldierInfoDbContext>()
+.AddDefaultTokenProviders();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ISoldierInfoService, SoldierInfoService>();
+builder.Services.AddScoped<ISourceService, SourceService>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseDeveloperExceptionPage();
+}
+else
+{
+    app.UseExceptionHandler("/ProfileView/Error");
     app.UseHsts();
 }
 
@@ -18,6 +43,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

@@ -1,0 +1,92 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="~/css/adding.css" />
+    <link rel="stylesheet" href="~/css/globals.css" />
+</head>
+<body>
+    <div class="component">
+        <div class="overlap-group">
+            <form id="soldierForm" method="post" asp-controller="SoldierInfo" asp-action="Adding" class="input-container" enctype="multipart/form-data">
+                <input type="text" name="call_sign" class="input rectangle" />
+                <div class="text-wrapper">Дата зникнення/смерті</div>
+                <div class="text-wrapper-2">ПІБ</div>
+                <input type="text" name="soldier_name" class="input rectangle-2" />
+                <input type="text" name="death_place" class="input rectangle-3" />
+                <input type="text" name="rank" class="input rectangle-4" />
+                <input type="text" name="birth_place" class="input rectangle-5" />
+                <input type="text" name="age" class="input rectangle-6" />
+                <div class="text-wrapper-3">Вік</div>
+                <input type="date" name="birth_date" class="input rectangle-10" />
+                <input type="date" name="death_date" class="input rectangle-7" />
+                <input type="text" name="other_info" class="input rectangle-8" />
+                <div class="text-wrapper-4">Дата народження</div>
+                <div class="text-wrapper-5">Позивний</div>
+                <div class="text-wrapper-6">Посада</div>
+                <div class="text-wrapper-7">Спогади</div>
+                <div class="text-wrapper-8">Місце зникнення/смерті</div>
+                <div class="text-wrapper-9">Місце народження</div>
+                <div class="overlap"><button type="submit" class="text-wrapper-10">Додати анкету</button></div>
+                <div class="centered-button">
+                    <label for="photoInput">
+                        <img class="image" src="~/images/2x.png" alt="Button Image">
+                    </label>
+                    <input type="file" name="photo" id="photoInput" class="input file-input" style="display: none;">
+                </div>
+                <div class="status">Статус</div>
+                <div class="combo">
+                    <select class="combo-box" name="soldier_status" id="combo-box">
+                        <option value="На службі">На службі</option>
+                        <option value="Демобілізований">Демобілізований</option>
+                        <option value="Загинув">Загинув</option>
+                        <option value="Зник безвісти">Зник безвісти</option>
+                    </select>
+                    <div><button type="button" class="b_source" onclick="openLinkWindow()"><img class="img_source" src="~/images/source.png" /></button></div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        document.getElementById('soldierForm').onsubmit = function () {
+            var fileInput = document.getElementById('photoInput');
+            if (fileInput.files.length === 0) {
+                alert('Please upload a photo.');
+                return false;
+            }
+            return true;
+        };
+
+        function openLinkWindow() {
+            var linkWindow = window.open("", "_blank", "width=400,height=250");
+            linkWindow.document.write("<h2>Додати ресурс:</h2>");
+            linkWindow.document.write("<label for='linkInput'>Назва ресурсу:</label><br>");
+            linkWindow.document.write("<input type='text' id='resourceName' placeholder='Введіть назву ресурсу'><br><br>");
+            linkWindow.document.write("<label for='linkInput'>Посилання на сайт:</label><br>");
+            linkWindow.document.write("<input type='text' id='linkInput' placeholder='Вставте посилання сюди'><br><br>");
+            linkWindow.document.write("<button type='button' onclick='insertLink()'>Додати</button>");
+
+            function insertLink() {
+                var resourceName = linkWindow.document.getElementById('resourceName').value;
+                var linkInput = linkWindow.document.getElementById('linkInput').value;
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "/SoldierInfo/AddSource", true);
+                xhr.setRequestHeader("Content-Type", "application/json");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        linkWindow.close();
+                    }
+                    else {
+                        alert("Помилка: " + xhr.statusText);
+                    }
+                };
+                var data = JSON.stringify({ "resourceName": resourceName, "sourceUrl": linkInput });
+                xhr.send(data);
+            }
+        }
+    </script>
+</body>
+</html>
